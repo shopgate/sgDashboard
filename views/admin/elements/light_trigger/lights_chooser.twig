@@ -1,0 +1,22 @@
+<hr/>
+<h4>Light control</h4>
+<!-- Location -->
+<div class="row">
+    <div class="col-xs-8">
+
+        <select class="form-control" name="lights[]" multiple>
+            {% for location in lightOnLocation %}
+                <optgroup label="{{ locationNames[loop.index - 1] }}">
+                    {% set currentLocation = loop.index - 1 %}
+
+                    {% for light in location %}
+                        {% set lightIdPath = currentLocation ~ "/" ~ light.id %}
+                        <option value="{{ lightIdPath }}"  {{ (lightIdPath in formattedLightIds|keys) ? "selected" : "" }}>{{ light.name }}</option>
+                    {% endfor %}
+                </optgroup>
+            {% endfor %}
+        </select>
+
+    </div>
+
+</div>

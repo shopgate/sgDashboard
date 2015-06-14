@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="col-lg-3 col-xs-6">
+        <div class="form-group trigger-field">
+            <label>Add a new widget</label>
+            <select class="form-control" id="add-new-lighttrigger">
+                <option>Select…</option>
+                <optgroup label="Jira">
+                    <option value="jira/compare_ticket_count">Compare counts of Tickets</option>
+                    <option value="jira/new_ticket">New ticket</option>
+                </optgroup>
+                <optgroup label="Zendesk">
+                    <option value="zendesk/compare_ticket_count">Compare counts of Tickets</option>
+                </optgroup>
+                <optgroup label="Inopla">
+                    <option value="inopla/reachability">Reachability</option>
+                </optgroup>
+                <optgroup label="Google">
+                    <option value="google/spreadsheet_value">Change color with value from Google Spreadsheet</option>
+                </optgroup>
+            </select>
+        </div>
+    </div>
+</div>
+
+<!-- Widget modal box-->
+<div class="modal fade lighttrigger-modal-box">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Add lighttrigger</h4>
+            </div>
+            <form method="post" action="/admin/lighttrigger/">
+                Loading...
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

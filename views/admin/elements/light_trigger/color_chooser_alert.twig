@@ -1,0 +1,32 @@
+<hr/>
+<h4>Lightstatus</h4>
+<br>
+
+<div class="row">
+
+    <!-- Warning -->
+    <div class="col-xs-4 ">
+        <input type="hidden" name="lightStatus[warning][active]" value="1"/>
+
+        <div class="color-settings">
+            <div class="form-group">
+                <label>Color</label>
+                <select class="form-control" name="lightStatus[warning][color]">
+                    <option value="{{ color.RED }}" {{ lighttrigger.warning.color == color.RED }}>Red</option>
+                    <option value="{{ color.ORANGE }}" {{ lighttrigger.warning.color == color.ORANGE }}>Orange</option>
+                    <option value="{{ color.GREEN }}" {{ lighttrigger.warning.color == color.GREEN }}>Green</option>
+                    <option value="{{ color.BLUE }}" {{ lighttrigger.warning.color == color.BLUE }}>Blue</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+<style>
+    .lightstatus-warning {
+        background-color: rgba(255, 255, 0, 0.3);
+    }
+</style>

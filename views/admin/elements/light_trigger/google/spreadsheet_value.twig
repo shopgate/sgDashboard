@@ -1,0 +1,38 @@
+<div class="modal-body">
+
+    {% if not lighttrigger is empty %}
+        <input type="hidden" name="id" value="{{ lighttrigger._id }}">
+    {% endif %}
+
+    <input type="hidden" name="dataSource[sourceSystem]" value="google"/>
+    <input type="hidden" name="dataSource[type]" value="spreadsheet_value"/>
+    <input type="hidden" name="lightStatus[state]" value="colorChange"/>
+
+    <!-- Title -->
+    <div class="form-group">
+        <label>Title</label>
+        <input type="text" class="form-control" required="required"
+               name="title" value="{{ lighttrigger.title|e('html_attr') }}">
+    </div>
+
+    <!-- Spreadsheet id -->
+    <div class="form-group">
+        <label>Spreadsheet Id</label>
+        <input type="text" class="form-control" placeholder="e.g. 10IoOwdhWgRaZkme7t62050vhwlQry3epZhaLMnpA7RU" required="required"
+               name="dataSource[queries][spreedsheetId]" value="{{ lighttrigger.dataSource.queries.spreedsheetId|e('html_attr') }}">
+    </div>
+
+    <!-- Cell -->
+    <div class="form-group">
+        <label>Cell</label>
+        <input type="text" class="form-control" placeholder="e.g. Sheet1!A1" required="required"
+               name="dataSource[queries][cell]" value="{{ lighttrigger.dataSource.queries.cell|e('html_attr') }}">
+    </div>
+
+    {% include 'admin/elements/light_trigger/lights_chooser.twig' %}
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">{{ (lighttrigger is empty) ? "Add lighttrigger" : "Save" }}</button>
+</div>

@@ -1,0 +1,71 @@
+<div class="row">
+    <div class="col-lg-3 col-xs-6">
+        <div class="form-group trigger-field">
+            <label>Add a new widget</label>
+            <select class="form-control" id="add-new-widget">
+                <option>Select…</option>
+                <optgroup label="Jira">
+                    <option value="jira/tickets_count">Count of Tickets</option>
+                    <option value="jira/worklog">Worklog</option>
+                </optgroup>
+                <optgroup label="Zendesk">
+                    <option value="zendesk/tickets_count">Count of Tickets</option>
+                </optgroup>
+                <optgroup label="Web">
+                    <option value="web/iframe">Show an iframe</option>
+                </optgroup>
+                <optgroup label="Inopla">
+                    <option value="inopla/accept_calls">Accepted Calls</option>
+                    <option value="inopla/missed_calls">Missed Calls</option>
+                    <option value="inopla/reachability_percent">Reachability (in Percent)</option>
+                </optgroup>
+                <optgroup label="Google">
+                    <option value="google/spreadsheet_value">Value in a Spreadsheet</option>
+                </optgroup>
+            </select>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        $('#add-new-widget').change(function () {
+
+            $('.widget-modal-box form').html("Loading...");
+            $('.widget-modal-box').modal('show');
+            $.get('/admin/ajax_widget', {widget: $(this).val()}, function (data) {
+                $('.widget-modal-box form').html(data);
+            });
+
+        })
+
+        $('.edit-button').click(function () {
+            $('.widget-modal-box form').html("Loading...");
+            $('.widget-modal-box').modal('show');
+            $.get('/admin/ajax_widget', {widget: $(this).val(), id: $(this).data('id')}, function (data) {
+                $('.widget-modal-box form').html(data);
+            });
+        })
+
+    })
+</script>
+
+<!-- Widget modal box-->
+<div class="modal fade widget-modal-box">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Add Widget</h4>
+            </div>
+            <form method="post" action="/admin/widget/{{ dashboard._id }}">
+                Loading...
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

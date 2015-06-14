@@ -1,0 +1,25 @@
+<div class="modal-body">
+
+    {% if not widget is empty  %}
+        <input type="hidden" name="id" value="{{ widget._id }}">
+    {% endif %}
+
+    <input type="hidden" name="source" value="web">
+    <input type="hidden" name="type" value="iframe">
+    {% include 'admin/elements/widgets/general.twig' %}
+
+    <!-- URL -->
+    <div class="form-group">
+        <label>URL</label>
+        <input type="text" class="form-control" placeholder="e.g. http://shopgate.com" required="required"
+               name="query" value="{{ widget.query|e('html_attr') }}">
+    </div>
+
+
+    {% include 'admin/elements/apperance.twig' %}
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">{{ (widget is empty) ? "Add widget" : "Save" }}</button>
+</div>

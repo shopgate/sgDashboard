@@ -1,0 +1,35 @@
+<div class="modal-body">
+
+    {% if not lighttrigger is empty  %}
+        <input type="hidden" name="id" value="{{ lighttrigger._id }}">
+    {% endif %}
+
+    <input type="hidden" name="dataSource[sourceSystem]" value="jira" />
+    <input type="hidden" name="dataSource[type]" value="new_ticket" />
+    <input type="hidden" name="triggerType" value="newValue" />
+    <input type="hidden" name="lightStatus[state]" value="alert" />
+
+    <!-- JQL -->
+    <div class="form-group">
+        <label>Title</label>
+        <input type="text" class="form-control" required="required"
+               name="title" value="{{ lighttrigger.title|e('html_attr') }}">
+    </div>
+
+    <!-- JQL -->
+    <div class="form-group">
+        <label>Source JQL</label>
+        <input type="text" class="form-control" placeholder="e.g. project = PI" required="required"
+               name="dataSource[queries][sourceQuery]" value="{{ lighttrigger.dataSource.queries.sourceQuery|e('html_attr') }}">
+    </div>
+
+    {% include 'admin/elements/light_trigger/lights_chooser.twig' %}
+    {% include 'admin/elements/light_trigger/color_chooser_alert.twig' %}
+
+
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">{{ (lighttrigger is empty) ? "Add lighttrigger" : "Save" }}</button>
+</div>

@@ -1,0 +1,101 @@
+<hr/>
+<h4>Lightstatus</h4>
+<br>
+
+<div class="row">
+
+
+    <!-- OK -->
+    <div class="col-xs-4 lightstatus-success">
+        <label>Everything is fine</label>
+
+        <div class="form-group">
+            <input type="checkbox" class="switch" name="lightStatus[positive][active]" {{ lighttrigger.lightStatus.positive.active ? "checked" : "" }}/>
+        </div>
+
+        <div class="color-settings">
+            <div class="form-group">
+                <label>Over/Equals</label>
+                <input type="number" class="form-control" name="lightStatus[positive][limit]" value="{{ lighttrigger.lightStatus.positive.limit }}">
+            </div>
+            <div class="form-group">
+                <label>Color</label>
+                <select class="form-control" name="lightStatus[positive][color]">
+                    <option value="{{ color.RED }}" {{ lighttrigger.lightStatus.positive.color == color.RED ? "selected" : "" }}>Red</option>
+                    <option value="{{ color.ORANGE }}" {{ lighttrigger.lightStatus.positive.color == color.ORANGE ? "selected" : "" }}>Orange</option>
+                    <option value="{{ color.GREEN }}" {{ lighttrigger.lightStatus.positive.color == color.GREEN ? "selected" : "" }}>Green</option>
+                    <option value="{{ color.BLUE }}" {{ lighttrigger.lightStatus.positive.color == color.BLUE ? "selected" : "" }}>Blue</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Warning -->
+    <div class="col-xs-4 lightstatus-warning">
+        <label>Warning</label>
+
+        <div class="form-group">
+            <input type="checkbox" class="switch" name="lightStatus[warning][active]" {{ lighttrigger.lightStatus.warning.active ? "checked" : "" }}/>
+        </div>
+
+        <div class="color-settings">
+            <div class="form-group">
+                <label>Below/Equals</label>
+                <input type="number" class="form-control" name="lightStatus[warning][limit]" value="{{ lighttrigger.lightStatus.warning.limit }}">
+            </div>
+            <div class="form-group">
+                <label>Color</label>
+                <select class="form-control" name="lightStatus[warning][color]">
+                    <option value="{{ color.RED }}" {{ lighttrigger.lightStatus.warning.color == color.RED ? "selected" : "" }}>Red</option>
+                    <option value="{{ color.ORANGE }}" {{ lighttrigger.lightStatus.warning.color == color.ORANGE ? "selected" : "" }}>Orange</option>
+                    <option value="{{ color.GREEN }}" {{ lighttrigger.lightStatus.warning.color == color.GREEN ? "selected" : "" }}>Green</option>
+                    <option value="{{ color.BLUE }}" {{ lighttrigger.lightStatus.warning.color == color.BLUE ? "selected" : "" }}>Blue</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Negativ -->
+    <div class="col-xs-4 lightstatus-negativ">
+
+        <label>Negativ</label>
+
+        <div class="form-group">
+            <input type="checkbox" class="switch" name="lightStatus[negative][active]" {{ lighttrigger.lightStatus.negative.active ? "checked" : "" }}/>
+
+        </div>
+        <div class="color-settings">
+            <div class="form-group">
+                <label>Below/Equals</label>
+                <input type="number" class="form-control" name="lightStatus[negative][limit]" value="{{ lighttrigger.lightStatus.negative.limit }}">
+            </div>
+            <div class="form-group">
+                <label>Color</label>
+                <select class="form-control" name="lightStatus[negative][color]">
+                    <option value="{{ color.RED }}" {{ lighttrigger.lightStatus.negative.color == color.RED ? "selected" : "" }}>Red</option>
+                    <option value="{{ color.ORANGE }}" {{ lighttrigger.lightStatus.negative.color == color.ORANGE ? "selected" : "" }}>Orange</option>
+                    <option value="{{ color.GREEN }}" {{ lighttrigger.lightStatus.negative.color == color.GREEN ? "selected" : "" }}>Green</option>
+                    <option value="{{ color.BLUE }}" {{ lighttrigger.lightStatus.negative.color == color.BLUE ? "selected" : "" }}>Blue</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+    .lightstatus-success {
+        background-color: rgba(0, 255, 0, 0.3);
+    }
+
+    .lightstatus-warning {
+        background-color: rgba(255, 255, 0, 0.3);
+    }
+
+    .lightstatus-negativ {
+        background-color: rgba(255, 0, 0, 0.3);
+    }
+</style>

@@ -1,0 +1,108 @@
+{% set prefix = (widget) ? "edit" : "add" %}
+
+
+<div class="modal-body">
+    <!-- Key -->
+    <div class="form-group">
+        <label>Key</label>
+        <input type="text" class="form-control" placeholder="Enter ..." required="required" name="key"
+               value="{{ widget.key }}">
+    </div>
+
+    <!-- Title -->
+    <div class="form-group">
+        <label>Title of the Widget</label>
+        <input type="text" class="form-control"
+               placeholder="Title which should show up in the dashboard" required="required"
+               name="title" value="{{ widget.title }}">
+    </div>
+
+    <!-- Source -->
+    <div class="form-group">
+        <label>Source</label>
+        <select id="{{ prefix }}-query-source" class="form-control" name="source">
+            <option value="">Select...</option>
+            <option value="jira" {{ ( widget.source == "jira" ) ? 'selected' : '' }}>Jira</option>
+            <option value="zendesk" {{ ( widget.source == "zendesk" ) ? 'selected' : '' }}>Zendesk</option>
+            <option value="google-docs" {{ ( widget.source == "google-docs" ) ? 'selected' : '' }}>Google Docs</option>
+            <option value="guru-api" {{ ( widget.source == "guru-api" ) ? 'selected' : '' }}>Guru Api</option>
+            <option value="inopla" {{ ( lighttrigger.dataSource.sourceSystem == "inopla" ) ? 'selected' : '' }}>Inopla</option>
+            <option value="web" {{ ( widget.source == "web" ) ? 'selected' : '' }}>Web</option>
+        </select>
+    </div>
+
+    <!-- Type -->
+    <div class="form-group">
+        <label>Type of the source</label>
+        <select id="{{ prefix }}-widget-type" class="form-control" name="type">
+
+        </select>
+    </div>
+
+    <!-- Query -->
+    <div class="form-group">
+        <label>Query</label>
+        <input type="text" class="form-control" placeholder="e.g. JQL commands" required="required"
+               name="query" value="{{ widget.query|e('html_attr') }}">
+    </div>
+
+    <h3>Appearance</h3>
+
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="form-group">
+                <label>Row</label>
+                <input class="form-control" type="number" placeholder="e.g. 1" name="position[row]"
+                       min="1" required="required" value="{{ widget.position.row }}">
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="form-group">
+                <label>Column index</label>
+                <input class="form-control" type="number" placeholder="e.g. 2"
+                       name="position[column_index]" min="1" max="12"
+                       required="required" value="{{ widget.position.column_index }}">
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="form-group">
+                <label>Column width</label>
+                <input class="form-control" type="number" placeholder="e.g. 6" name="position[column]"
+                       min="1" max="12" required="required" value="{{ widget.position.column }}">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label>Color</label>
+                <select class="form-control" name="appearance[color]">
+                    <option value="green" {{ ( widget.appearance.color == "green" ) ? 'selected' : '' }}>Green</option>
+                    <option value="yellow" {{ ( widget.appearance.color == "yellow" ) ? 'selected' : '' }}>Yellow
+                    </option>
+                    <option value="red" {{ ( widget.appearance.color == "red" ) ? 'selected' : '' }}>Red</option>
+                    <option value="blue" {{ ( widget.appearance.color == "blue" ) ? 'selected' : '' }}>Blue</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label>Icon</label>
+                <select class="form-control" name="appearance[icon]">
+                    <option value="ion-stats-bars" {{ ( widget.appearance.icon == "ion-stats-bars" ) ? 'selected' : '' }}>Statistic</option>
+                    <option value="ion-android-search" {{ ( widget.appearance.icon == "ion-android-search" ) ? 'selected' : '' }}>Magnifier</option>
+                    <option value="ion-ios-chatboxes-outline" {{ ( widget.appearance.icon == "ion-ios-chatboxes-outline" ) ? 'selected' : '' }}>Chat bubbles</option>
+                    <option value="ion-happy-outline" {{ ( widget.appearance.icon == "ion-happy-outline" ) ? 'selected' : '' }}>Happy smilie</option>
+                    <option value="ion-sad-outline" {{ ( widget.appearance.icon == "ion-sad-outline" ) ? 'selected' : '' }}>Sad smilie</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">Add widget</button>
+</div>

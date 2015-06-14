@@ -1,0 +1,40 @@
+{% extends "../layout/default.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12 col-md-8">
+            <div class="box box-solid">
+                <div class="box-body no-padding">
+                    <table id="layout-skins-list" class="table table-striped bring-up nth-2-center">
+                        <thead>
+                            <tr>
+                                <th>Dashboard name</th>
+                                <th>Dashboard key</th>
+                                <th>Location</th>
+                                <th>View</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for dashboard in dashboards %}
+                                <tr>
+                                    <td>{{ dashboard.name }}</td>
+                                    <td>{{ dashboard.key }}</td>
+                                    <td>{{ dashboard.location }}</td>
+                                    <td><a href="/dashboard/{{ dashboard.key }}" data-skin="skin-blue" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i></a></td>
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+
+    <a href="/admin" class="btn btn-primary">Setup</a>
+
+
+{% endblock %}

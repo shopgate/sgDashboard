@@ -1,0 +1,25 @@
+<div class="modal-body">
+
+    {% if not widget is empty  %}
+        <input type="hidden" name="id" value="{{ widget._id }}">
+    {% endif %}
+
+    <input type="hidden" name="source" value="zendesk">
+    <input type="hidden" name="type" value="tickets_count">
+    {% include 'admin/elements/widgets/general.twig' %}
+
+    <!-- JQL -->
+    <div class="form-group">
+        <label>Zendesk Query</label>
+        <input type="text" class="form-control" placeholder="" required="required"
+               name="query" value="{{ widget.query|e('html_attr') }}">
+    </div>
+
+
+    {% include 'admin/elements/apperance.twig' %}
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">Add widget</button>
+</div>

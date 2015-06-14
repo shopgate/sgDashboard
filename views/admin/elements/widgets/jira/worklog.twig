@@ -1,0 +1,32 @@
+<div class="modal-body">
+
+    {% if not widget is empty  %}
+        <input type="hidden" name="id" value="{{ widget._id }}">
+    {% endif %}
+
+    <input type="hidden" name="source" value="jira">
+    <input type="hidden" name="type" value="worklog">
+    {% include 'admin/elements/widgets/general.twig' %}
+
+    <!-- Query -->
+    <div class="form-group">
+        <label>Team</label>
+        <select class="form-control" name="query">
+            <option value="1" {{ widget.query == 1 ? 'selected' : '' }}>All Developers</option>
+            <option value="2" {{ widget.query == 2 ? 'selected' : '' }}>Scrum Team Admin</option>
+            <option value="3" {{ widget.query == 3 ? 'selected' : '' }}>Scrum Team Backend</option>
+            <option value="4" {{ widget.query == 4 ? 'selected' : '' }}>Scrum Team Web</option>
+            <option value="5" {{ widget.query == 5 ? 'selected' : '' }}>Scrum Team iOS</option>
+            <option value="14" {{ widget.query == 14 ? 'selected' : '' }}>Scrum Team Android</option>
+            <option value="6" {{ widget.query == 6 ? 'selected' : '' }}>Scrum Team Interfaces</option>
+            <option value="7" {{ widget.query == 7 ? 'selected' : '' }}>Team Operation</option>
+        </select>
+    </div>
+
+    {% include 'admin/elements/apperance.twig' %}
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">{{ (widget is empty) ? "Add widget" : "Save" }}</button>
+</div>

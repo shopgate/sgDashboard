@@ -1,0 +1,31 @@
+<div class="modal-body">
+
+    {% if not widget is empty %}
+        <input type="hidden" name="id" value="{{ widget._id }}">
+    {% endif %}
+
+    <input type="hidden" name="source" value="google">
+    <input type="hidden" name="type" value="spreadsheet_value">
+    {% include 'admin/elements/widgets/general.twig' %}
+
+    <!-- Query -->
+    <div class="form-group">
+        <label>Spreadsheet Id</label>
+        <input type="text" class="form-control" placeholder="e.g. 10IoOwdhWgRaZkme7t62050vhwlQry3epZhaLMnpA7RU" required="required"
+               name="query[spreedsheetId]" value="{{ widget.query.spreedsheetId|e('html_attr') }}">
+    </div>
+
+    <!-- Query -->
+    <div class="form-group">
+        <label>Cell</label>
+        <input type="text" class="form-control" placeholder="e.g. Sheet1!A1" required="required"
+               name="query[cell]" value="{{ widget.query.cell|e('html_attr') }}">
+    </div>
+
+    {% include 'admin/elements/apperance.twig' %}
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">{{ (widget is empty) ? "Add widget" : "Save" }}</button>
+</div>

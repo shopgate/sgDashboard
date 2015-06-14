@@ -1,0 +1,25 @@
+{% extends "../layout/admin.twig" %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-primary">
+                <form role="form" method="post" action="/admin/dashboard_add">
+                    <div class="box-body">
+                        {% include 'admin/elements/general_dashboard_setting.twig' %}
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary"><i class="ion ion-plus"></i>Add Dashboard</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

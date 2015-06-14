@@ -1,0 +1,19 @@
+
+<div class="form-group">
+    <label>Shortkey of the dashboard</label>
+    <input type="text" class="form-control" name="key" required="required" placeholder="e.g. operation_dashboard" value="{{ dashboard.key }}">
+</div>
+<div class="form-group">
+    <label>Name of the dashboard</label>
+    <input type="text" class="form-control" name="name" required="required"
+           placeholder="e.g. Dashboard of the 3rd level support" value="{{ dashboard.name }}">
+</div>
+<div class="form-group">
+    <label>Location</label>
+    <select class="form-control" name="location">
+        <option value="butzbach" {{ ( dashboard.location == "butzbach" ) ? 'selected' : '' }} >Butzbach, DE</option>
+        <option value="magdeburg" {{ ( dashboard.location == "magdeburg" ) ? 'selected' : '' }}>Magdeburg, DE</option>
+        <option value="berlin" {{ ( dashboard.location == "berlin" ) ? 'selected' : '' }}>Berlin, DE</option>
+        <option value="sanfrancisco" {{ ( dashboard.location == "sanfrancisco" ) ? 'selected' : '' }}>San Francisco, CA, US</option>
+    </select>
+</div>

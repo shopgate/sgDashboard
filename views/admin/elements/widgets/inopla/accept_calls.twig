@@ -1,0 +1,22 @@
+<div class="modal-body">
+
+    {% if not widget is empty  %}
+        <input type="hidden" name="id" value="{{ widget._id }}">
+    {% endif %}
+
+    <input type="hidden" name="source" value="inopla">
+    <input type="hidden" name="type" value="accept_calls">
+    {% include 'admin/elements/widgets/general.twig' %}
+    <!-- Phone extenstion -->
+    <div class="form-group">
+        <label>Phoneextenstion</label>
+        <input type="text" class="form-control" placeholder="e.g. 0" required="required"
+               name="query" value="{{ widget.query|e('html_attr') }}">
+    </div>
+    {% include 'admin/elements/apperance.twig' %}
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">{{ (widget is empty) ? "Add widget" : "Save" }}</button>
+</div>

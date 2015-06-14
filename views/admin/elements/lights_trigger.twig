@@ -1,0 +1,167 @@
+{% set prefix = (lighttrigger) ? "edit" : "add" %}
+
+
+<div class="modal-body">
+    <!-- Title -->
+    <div class="form-group">
+        <label>Title of the Lighttrigger</label>
+        <input type="text" class="form-control" required="required" name="title" value="{{ lighttrigger.title }}">
+    </div>
+
+
+    <h3 class="">Trigger</h3>
+
+    <!-- Source -->
+    <div class="form-group">
+        <label>Source</label>
+        <select id="{{ prefix }}-lighttrigger-source" class="form-control lighttrigger-source-system" name="dataSource[sourceSystem]">
+            <option value="">Select...</option>
+            <option value="jira" {{ ( lighttrigger.dataSource.sourceSystem == "jira" ) ? 'selected' : '' }}>Jira</option>
+            <option value="zendesk" {{ ( lighttrigger.dataSource.sourceSystem == "zendesk" ) ? 'selected' : '' }}>Zendesk</option>
+            <option value="google-docs" {{ ( lighttrigger.dataSource.sourceSystem == "google-docs" ) ? 'selected' : '' }}>Google Docs</option>
+            <option value="inopla" {{ ( lighttrigger.dataSource.sourceSystem == "inopla" ) ? 'selected' : '' }}>Inopla</option>
+            <option value="api-trigger" {{ ( lighttrigger.dataSource.sourceSystem == "api-trigger" ) ? 'selected' : '' }}>Api trigger</option>
+        </select>
+    </div>
+
+    <!-- Type -->
+    <div class="form-group">
+        <label>Type of the source</label>
+        <select id="{{ prefix }}-lighttrigger-source-type" class="form-control" name="dataSource[type]">
+
+        </select>
+    </div>
+
+    <!-- Trigger type -->
+    <div class="form-group trigger-field">
+        <label>Trigger type</label>
+        <select class="form-control" name="triggerType">
+            <option value="">Select...</option>
+            <option value="newValue" {{ ( lighttrigger.triggerType == "newValue" ) ? 'selected' : '' }}>New value</option>
+            <option value="compare" {{ ( lighttrigger.triggerType == "compare" ) ? 'selected' : '' }}>Count compare between two query</option>
+        </select>
+    </div>
+
+
+    <!-- Query -->
+    <div class="form-group">
+        <label>Query</label>
+        <input type="text" class="form-control" placeholder="e.g. JQL commands" required="required"
+               name="dataSource[queries][sourceQuery]" value="{{ lighttrigger.dataSource.queries.sourceQuery|e('html_attr') }}">
+    </div>
+
+    <!-- Compare Query -->
+    <div class="form-group destination-query show-on-compare">
+        <label>Compare Query</label>
+        <input type="text" class="form-control" placeholder="e.g. JQL commands"
+               name="dataSource[queries][destinationQuery]" value="{{ lighttrigger.dataSource.queries.destinationQuery|e('html_attr') }}">
+    </div>
+
+
+    <h3>Light control</h3>
+    <!-- Location -->
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label>Location</label>
+                <select class="form-control" name="light[location]" id="{{ prefix }}-lighttrigger-light-location">
+                    <option value="">Select...</option>
+                    <option value="{{ location.BUTZBACH }}" {{ ( lighttrigger.light.location == location.BUTZBACH ) ? 'selected' : '' }} >Butzbach, DE</option>
+                    <option value="{{ location.MAGDEBURG }}" {{ ( lighttrigger.light.location == location.MAGDEBURG ) ? 'selected' : '' }}>Magdeburg, DE</option>
+                    <option value="{{ location.BERLIN }}" {{ ( lighttrigger.light.location == location.BERLIN ) ? 'selected' : '' }}>Berlin, DE</option>
+                    <option value="{{ location.GILBERT }}" {{ ( lighttrigger.light.location == location.GILBERT ) ? 'selected' : '' }}>Gilbert,AZ, US</option>
+                    <option value="{{ location.SANFRANCISCO }}" {{ ( lighttrigger.light.location == "sanfrancisco" ) ? 'selected' : '' }}>San Francisco, CA, US</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label>Light</label>
+                <select class="form-control" name="light[id]" id="{{ prefix }}-trigger-light" multiple>
+
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- light state -->
+    <div class="form-group">
+        <label>Light state</label>
+        <select id="{{ prefix }}-query-source" class="form-control" name="lightStatus[state]">
+            <option value="">Select...</option>
+            <option value="alert" {{ ( lighttrigger.lightStatus.state == "alert" ) ? 'selected' : '' }}>Blinking Lights</option>
+            <option value="colorChange" {{ ( lighttrigger.lightStatus.state == "colorChange" ) ? 'selected' : '' }}>Change colors</option>
+        </select>
+    </div>
+
+
+    <div class="row">
+
+        <!-- Color -->
+        <div class="col-xs-4">
+            <div class="form-group">
+                <label>Color <span class="show-on-compare">(positiv)</span></label>
+                <select id="{{ prefix }}-query-source" class="form-control" name="lightStatus[positiv]">
+                    <option value="">Select...</option>
+                    <option value="green" {{ ( lighttrigger.lightStatus.positiv == "green" ) ? 'selected' : '' }}>
+                        Green
+                    </option>
+                    <option value="red" {{ ( lighttrigger.lightStatus.positiv == "red" ) ? 'selected' : '' }}>Red
+                    </option>
+                    <option value="blue" {{ ( lighttrigger.lightStatus.positiv == "blue" ) ? 'selected' : '' }}>Blue
+                    </option>
+                    <option value="white" {{ ( lighttrigger.lightStatus.positiv == "white" ) ? 'selected' : '' }}>
+                        White
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-xs-4 negativ-color show-on-compare">
+            <div class="form-group">
+                <label>Color (negativ)</label>
+                <select id="{{ prefix }}-query-source" class="form-control" name="lightStatus[negativ]">
+                    <option value="">Select...</option>
+                    <option value="green" {{ ( lighttrigger.lightStatus.negativ == "green" ) ? 'selected' : '' }}>
+                        Green
+                    </option>
+                    <option value="red" {{ ( lighttrigger.lightStatus.negativ == "red" ) ? 'selected' : '' }}>Red
+                    </option>
+                    <option value="blue" {{ ( lighttrigger.lightStatus.negativ == "blue" ) ? 'selected' : '' }}>Blue
+                    </option>
+                    <option value="white" {{ ( lighttrigger.lightStatus.negativ == "white" ) ? 'selected' : '' }}>
+                        White
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Brightness -->
+        <div class="col-xs-4">
+            <div class="form-group">
+                <label>Brightness of the lights</label>
+                <input type="number" class="form-control" placeholder="e.g. 50" required="required" min="0" max="100"
+                       name="lightStatus[brightness]" value="{{ lighttrigger.lightStatus.brightness|e('html_attr') }}">
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">{{ (lighttrigger) ? "Save" : "Add trigger"  }}</button>
+</div>
+
+<style>
+    .show-on-compare {
+        display: none;
+    }
+</style>

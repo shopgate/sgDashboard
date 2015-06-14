@@ -1,0 +1,27 @@
+{
+  "global": {
+    "port": "8080",
+    "mongoose": {
+      "uri": "mongodb://localhost/sgDashboard",
+      "options": {}
+    }
+  },
+  "jira": {
+    "host": "<yourdomain>.atlassian.net",
+    "port": 443,
+    "defaultPath": "/rest/api/2/search",
+    "user": "<jirauser>",
+    "password": "<jirauserpassword>"
+  },
+  "zendesk": {
+    "username": "<zendesk email address>",
+    "token": "<usertoken>",
+    "remoteUri": "https://<yourdomain>.zendesk.com/api/v2",
+    "debug": false
+  },
+  "googleOauth": {
+    "clientId": "<googleOAuthClientId>",
+    "clientSecret": "<googleOAuthClientSecrect>",
+    "apiUserRefreshToken": "<userOAuthRefreshToken>"
+  }
+}

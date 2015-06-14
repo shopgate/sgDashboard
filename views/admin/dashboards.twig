@@ -1,0 +1,70 @@
+{% extends "../layout/admin.twig" %}
+
+{% block content %}
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Dashboard Overview</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-striped table-responsive no-padding">
+                        <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Name</th>
+                            <th>Location</th>
+                            <th class="action">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for dashboard in dashboards %}
+                            <tr>
+                                <td class="dashboard-key">{{ dashboard.key }}</td>
+                                <td>{{ dashboard.name }}</td>
+                                <td>{{ dashboard.location }}</td>
+                                <td class="action">
+                                    <a href="/dashboard/{{ dashboard.key }}" class="btn btn-default"><i class="ion ion-android-open"></i></a>
+                                    <a href="/admin/dashboard_edit/{{ dashboard._id }}" class="btn btn-default edit-button"><i class="ion ion-edit"></i></a>
+                                    <a data-url="/admin/dashboard_delete/{{ dashboard._id }}" class="btn btn-danger delete-confirm"><i class="ion ion-trash-a"></i></a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="3">No Dashboard found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
+                <div class="box-footer">
+                    <a href="/admin/dashboard_add" class="btn btn-primary"><i class="ion ion-plus"></i> Add Dashboard</a>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <style>
+        .action {
+            width: 135px;
+        }
+
+    </style>
+
+
+{% endblock %}
+
+{% block footerJS %}
+    <script type="application/javascript">
+
+
+{% endblock %}

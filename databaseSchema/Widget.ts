@@ -17,7 +17,8 @@ var WidgetSchema = new mongoose.Schema({
 	position: {
 		column: {type: Number, required: true},
 		column_index: {type: Number, required: true},
-		row: {type: Number, required: true}
+		row: {type: Number, required: true},
+		page: {type: Number, required: true}
 	},
 	appearance: {
 		color: {type: String},
@@ -51,6 +52,7 @@ export interface IWidget extends mongoose.Document {
 		column: number;
 		column_index: number;
 		row: number;
+		page: number;
 	};
 	appearance: {
 		color:string;

@@ -1,7 +1,9 @@
 ///<reference path='../typings/express/express.d.ts' />
 ///<reference path='../typings/winston/winston.d.ts' />
+///<reference path='../typings/underscore/underscore.d.ts' />
 import express = require('express');
 import winston = require("winston");
+import _ = require("underscore");
 import DashboardSchema = require('../databaseSchema/Dashboard');
 import WidgetSchema = require('../databaseSchema/Widget');
 var Dashboard = DashboardSchema.DashboardModel;
@@ -29,8 +31,25 @@ router.get('/dashboard/:dashboardKey', function (req:express.Request, res:expres
 			return;
 		}
 
-		Widget.find({board: dashboard._id}).sort({'position.row': 1, 'position.column_index': 1}).exec(function (err, widgets) {
-			res.render('index/dashboard', {pageTitle: dashboard.name, dashboard: dashboard, widgets: widgets});
+		Widget.find({board: dashboard._id}).sort({'position.page': 1, 'position.row': 1, 'position.column_index': 1}).exec(function (err, widgets) {
+			console.log(widgets);
+			var widgetsPerPage = {};
+
+			//create an object with the pagenumber as index
+			_.each(widgets, function (widget) {
+				if(!widget.position.page) {
+					widget.position.page = 0;
+				}
+
+				if(!widgetsPerPage[widget.position.page]) {
+					widgetsPerPage[widget.position.page] = [];
+				}
+
+				widgetsPerPage[widget.position.page].push(widget);
+
+			});
+
+			res.render('index/dashboard', {pageTitle: dashboard.name, dashboard: dashboard, widgets: widgets, widgetsPerPage: widgetsPerPage});
 
 		})
 

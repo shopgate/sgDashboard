@@ -2,22 +2,32 @@
 
 {% block content %}
 
-    <div class="row">
-        {% set currentRow = 1 %}
-        {% for widget in widgets %}
-            {% if currentRow != widget.position.row %}
-                {% set currentRow = widget.position.row  %}
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="{{ dashboard.nextPageInterval * 1000 }}" data-pause="">
+        <div class="carousel-inner">
+            {% for widgets in widgetsPerPage %}
+                <div class="item {{ loop.first ? "active" : "" }}">
+                    <div class="row">
+                        {% set currentRow = 1 %}
+                        {% for widget in widgets %}
+                            {% if currentRow != widget.position.row %}
+                                {% set currentRow = widget.position.row  %}
+                                </div>
+                                <div class="row">
+                            {% endif %}
+
+                            {% include 'index/elements/widgets/' ~ widget.source ~ '_' ~ widget.type ~ '.twig' with { 'widget' : widget} %}
+
+                        {% else %}
+                            <h3>No widgets found</h3>
+                        {% endfor %}
+                    </div>
                 </div>
-                <div class="row">
-            {% endif %}
+            {% endfor %}
 
-            {% include 'index/elements/widgets/' ~ widget.source ~ '_' ~ widget.type ~ '.twig' with { 'widget' : widget} %}
-
-        {% else %}
-            <h3>No widgets found</h3>
-        {% endfor %}
-
+        </div>
     </div>
+
+
     <script>
         var dashboardKey = "{{ dashboard.key }}";
     </script>

@@ -33,41 +33,45 @@
 
                 <div class="box-body">
 
-                    <table class="table table-striped table-responsive no-padding">
-                        <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Source</th>
-                            <th>Type</th>
-                            <th>Query</th>
-                            <th>Position<br/>(Row/Column)</th>
-                            <th class="action">Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for widget in widgets %}
+                    {% for widgets in widgetsPerPage %}
+                        <br/>
+                        <h4>Page {{ loop.index }}</h4>
+                        <table class="table table-striped table-responsive no-padding">
+                            <thead>
                             <tr>
-                                <td>{{ widget.title }}</td>
-                                <td>{{ widget.source }}</td>
-                                <td>{{ widget.type }}</td>
-                                <td>{{ widget.query|escape('html') }}</td>
-                                <td>{{ widget.position.row ~ "/" ~ widget.position.column_index }}</td>
-                                <td class="action">
-                                    <a data-url="/admin/ajax_widget_edit/{{ widget._id }}"
-                                       class="btn btn-default edit-button"
-                                       data-id="{{ widget._id }}"
-                                            ><i class="ion ion-edit"></i></a>
-                                    <a data-url="/admin/widget_delete/{{ widget._id }}" class="btn btn-danger delete-confirm"><i
-                                                class="ion ion-trash-a"></i></a>
-                                </td>
+                                <th>Title</th>
+                                <th>Source</th>
+                                <th>Type</th>
+                                <th>Query</th>
+                                <th>Position<br/>(Row/Column)</th>
+                                <th class="action">Actions</th>
                             </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="4">No widgets found</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            {% for widget in widgets %}
+                                <tr>
+                                    <td>{{ widget.title }}</td>
+                                    <td>{{ widget.source }}</td>
+                                    <td>{{ widget.type }}</td>
+                                    <td>{{ widget.query|escape('html') }}</td>
+                                    <td>{{ widget.position.row ~ "/" ~ widget.position.column_index }}</td>
+                                    <td class="action">
+                                        <a data-url="/admin/ajax_widget_edit/{{ widget._id }}"
+                                           class="btn btn-default edit-button"
+                                           data-id="{{ widget._id }}"
+                                                ><i class="ion ion-edit"></i></a>
+                                        <a data-url="/admin/widget_delete/{{ widget._id }}" class="btn btn-danger delete-confirm"><i
+                                                    class="ion ion-trash-a"></i></a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="4">No widgets found</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endfor %}
 
                     {% include 'admin/elements/widget_select.twig' %}
 

@@ -12,7 +12,8 @@ var Promise = es6Promise.Promise;
 var DashboardSchema = new mongoose.Schema({
 	key: {type: String, required: true, index: true},
 	name: {type: String, required: true, unique: true},
-	location: {type: String, required: true}
+	location: {type: String, required: true},
+	nextPageInterval: {type: Number, required: true}
 });
 
 //add a function to using Promises
@@ -35,6 +36,7 @@ export interface IDashboard extends mongoose.Document {
 	key:string
 	name: string;
 	location: string;
+	nextPageInterval:number;
 }
 
 

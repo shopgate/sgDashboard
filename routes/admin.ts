@@ -63,11 +63,28 @@ router.get('/dashboard_edit/:id', function (req, res) {
 			res.redirect('/admin/dashboards');
 			return;
 		}
-		Widget.find({board: dashboard._id}).sort({'position.row': 1, 'position.column_index': 1}).exec(function (err:Error, widgets:WidgetSchema.IWidget[]) {
+		Widget.find({board: dashboard._id}).sort({'position.page': 1, 'position.row': 1, 'position.column_index': 1}).exec(function (err:Error, widgets:WidgetSchema.IWidget[]) {
+
+			var widgetsPerPage = {};
+
+			//create an object with the pagenumber as index
+			_.each(widgets, function (widget) {
+				if(!widget.position.page) {
+					widget.position.page = 0;
+				}
+
+				if(!widgetsPerPage[widget.position.page]) {
+					widgetsPerPage[widget.position.page] = [];
+				}
+
+				widgetsPerPage[widget.position.page].push(widget);
+
+			});
+
 			res.render('admin/dashboard_edit', {
 				pageTitle: "Edit Dashboard: " + dashboard.name,
 				dashboard: dashboard,
-				widgets: widgets
+				widgetsPerPage: widgetsPerPage
 			});
 		})
 	});

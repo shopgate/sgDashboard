@@ -1,14 +1,21 @@
 <h3>Appearance</h3>
 
 <div class="row">
-    <div class="col-xs-4">
+    <div class="col-xs-3">
+        <div class="form-group">
+            <label>Page</label>
+            <input class="form-control" type="number" placeholder="e.g. 6" name="position[page]"
+                   min="1" max="12" required="required" value="{{ widget.position.page }}">
+        </div>
+    </div>
+    <div class="col-xs-3">
         <div class="form-group">
             <label>Row</label>
             <input class="form-control" type="number" placeholder="e.g. 1" name="position[row]"
                    min="1" required="required" value="{{ widget.position.row }}">
         </div>
     </div>
-    <div class="col-xs-4">
+    <div class="col-xs-3">
         <div class="form-group">
             <label>Column index</label>
             <input class="form-control" type="number" placeholder="e.g. 2"
@@ -16,7 +23,7 @@
                    required="required" value="{{ widget.position.column_index }}">
         </div>
     </div>
-    <div class="col-xs-4">
+    <div class="col-xs-3">
         <div class="form-group">
             <label>Column width</label>
             <input class="form-control" type="number" placeholder="e.g. 6" name="position[column]"

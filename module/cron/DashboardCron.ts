@@ -33,6 +33,6 @@ new CronJob('*/15 * * * * *', function () {
     googleSpreadsheetSource.execute();
 
 
-}, null, false);
+}, null, true);
 
 

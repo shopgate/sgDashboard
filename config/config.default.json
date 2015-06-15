@@ -23,5 +23,9 @@
     "clientId": "<googleOAuthClientId>",
     "clientSecret": "<googleOAuthClientSecrect>",
     "apiUserRefreshToken": "<userOAuthRefreshToken>"
+  },
+  "inopla": {
+    "id": "<yourInoplaId>",
+    "psec": "<yourInoplaSecret"
   }
 }

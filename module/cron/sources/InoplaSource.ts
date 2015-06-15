@@ -15,14 +15,18 @@ import AbstractSource = require('./AbstractSource');
 import InoplaCall = require('../../Objects/InoplaCall');
 import WidgetSchema = require('../../../databaseSchema/Widget');
 import LightState = require('../../Objects/LightState');
+import fs = require('fs');
 var Widget = WidgetSchema.WidgetModel;
 import LightTriggerSchema = require('../../../databaseSchema/LightTrigger');
 var LightTrigger = LightTriggerSchema.LightTriggerModel;
 import redisClient = require('../../redisClient');
 var parseString = xml2js.parseString;
 
-var inoplaURL = "https://schnittstelle.inopla.de/cdr/cdr_in_out.php";
-//var inoplaURL = "http://pvomhoff.localdev.cc/test.xml";
+
+var data = fs.readFileSync('./config/config.json', 'UTF-8');
+var config = JSON.parse(data);
+
+var inoplaURL = "https://schnittstelle.inopla.de/cdr/cdr_in_out.php?id=" + config.inopla.id + "&psec=" + config.inopla.psec + "&last_calls=500";
 
 class InoplaSource extends AbstractSource.AbstractSource {
 
@@ -117,7 +121,6 @@ class InoplaSource extends AbstractSource.AbstractSource {
 	 * @private
 	 */
 	_iterateThroughWidgets(widgets:WidgetSchema.IWidget[]) {
-		winston.debug("Go through widgets with widget:" + JSON.stringify(widgets));
 
 		var results = {};
 		var _this = this;
@@ -153,7 +156,6 @@ class InoplaSource extends AbstractSource.AbstractSource {
 					count = _this.calcReachability.call(_this, calls, phoneExtenstion);
 				}
 
-				winston.debug("End _iterateThroughWidgets at inopla: " + widget.type);
 				results[widget.board][widget.key] = {
 					source: widget.source,
 					type: widget.type,

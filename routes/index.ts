@@ -32,7 +32,6 @@ router.get('/dashboard/:dashboardKey', function (req:express.Request, res:expres
 		}
 
 		Widget.find({board: dashboard._id}).sort({'position.page': 1, 'position.row': 1, 'position.column_index': 1}).exec(function (err, widgets) {
-			console.log(widgets);
 			var widgetsPerPage = {};
 
 			//create an object with the pagenumber as index

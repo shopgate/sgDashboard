@@ -157,7 +157,8 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 
 						//check if we have values for the given cell
 						if (!result.cells[cellPositionInSheet.row] || !result.cells[cellPositionInSheet.row][cellPositionInSheet.col]) {
-							rejected(new Error("No value in the cell " + position + " found"));
+							winston.debug("No value for postition " + position + " found");
+							resolved("");
 							return;
 						}
 

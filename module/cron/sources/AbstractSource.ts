@@ -260,7 +260,7 @@ export class AbstractSource implements Source {
 			lightId: 0,
 			lightStatus: LightState.LightStatus.ON,
 			color: color,
-			brightness: 150 //TODO: add possibility to change it
+			brightness: 80 //TODO: add possibility to change it
 		};
 
 		//add all information for a light into "lights" objects

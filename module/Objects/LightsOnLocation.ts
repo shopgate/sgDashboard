@@ -15,6 +15,9 @@ locationToLights[Location.values.BUTZBACH] = [
 	{id: "101", name: "101"},
 	{id: "102", name: "102"},
 	{id: "103", name: "103"},
+	{id: "104", name: "Ortwin"},
+	{id: "105", name: "Devops"},
+	{id: "106", name: "Devops 2"},
 ];
 locationToLights[Location.values.MAGDEBURG] = [
 	{id: "1", name: "Living Colors"},

@@ -258,7 +258,7 @@ export class AbstractSource implements Source {
 		var lightState:LightState.LightState = {
 			location: null,
 			lightId: 0,
-			lightStatus: LightState.LightStatus.ON,
+			lightStatus: (color === null) ? LightState.LightStatus.OFF : LightState.LightStatus.ON,
 			color: color,
 			brightness: 80 //TODO: add possibility to change it
 		};

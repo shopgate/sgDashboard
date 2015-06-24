@@ -1,6 +1,7 @@
 export enum LightStatus {
 	BLINKING,
-	ON
+	ON,
+	OFF
 }
 
 export enum  LightColor {

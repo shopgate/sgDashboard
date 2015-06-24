@@ -262,11 +262,14 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 				_this.getValueFromCell(lightTrigger.dataSource.queries.spreedsheetId, lightTrigger.dataSource.queries.cell)
 					.then(function (value:string) {
 
-						var color = _this._mapCharToColor(value);
+						var color:LightState.LightColor = null;
+						if(value != "")  {
+							color = _this._mapCharToColor(value);
 
-						if (color === null) {
-							callback(new Error("No color found for " + value));
-							return;
+							if (color === null) {
+								callback(new Error("No color found for " + value));
+								return;
+							}
 						}
 
 						lights = _this.createLightStates(color, lightTrigger, lights);

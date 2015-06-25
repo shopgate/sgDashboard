@@ -155,6 +155,12 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 					//get all cells of the worksheet to cache it for later use
 					worksheet.cells({}, function (err, result) {
 
+						if (!result.cells) {
+							winston.debug("No cells in document found!");
+							resolved("");
+							return;
+						}
+
 						//check if we have values for the given cell
 						if (!result.cells[cellPositionInSheet.row] || !result.cells[cellPositionInSheet.row][cellPositionInSheet.col]) {
 							winston.debug("No value for postition " + position + " found");

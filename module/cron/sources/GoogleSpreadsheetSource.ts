@@ -51,6 +51,7 @@ var oAuthSettings:GoogleOAuthSetting = {
 
 class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 
+	private skipCount:number = 0;
 	private oAuthClient;
 	/**
 	 * The internal cache for the spreadsheets
@@ -58,6 +59,7 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 	private internalCache;
 
 	constructor() {
+		super();
 		this.internalCache = {};
 		this.oAuthClient = new google.auth.OAuth2(oAuthSettings.clientId, oAuthSettings.clientSecret, oAuthSettings.redirectUrl);
 		this.oAuthClient.setCredentials({
@@ -68,7 +70,7 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 		this.oAuthClient.refreshAccessToken(function () {
 			winston.debug("Refreshed access token");
 		})
-		super();
+
 	}
 
 	/**
@@ -154,6 +156,11 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 
 					//get all cells of the worksheet to cache it for later use
 					worksheet.cells({}, function (err, result) {
+
+						if (err) {
+							rejected(err);
+							return;
+						}
 
 						if (!result.cells) {
 							winston.debug("No cells in document found!");
@@ -374,6 +381,15 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 	}
 
 	execute() {
+
+		this.skipCount++;
+		//Execute the checks for inopla every 4th time to reduce the api traffic
+		if (this.skipCount < 4) {
+			winston.debug("Skip google spreadsheet " + this.skipCount);
+			return;
+		}
+		this.skipCount = 0;
+
 		winston.debug("Run google spreadsheet");
 		this.currentIteration++;
 		this.internalCache = {};

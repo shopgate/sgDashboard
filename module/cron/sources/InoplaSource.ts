@@ -22,10 +22,7 @@ import LightTriggerSchema = require('../../../databaseSchema/LightTrigger');
 var LightTrigger = LightTriggerSchema.LightTriggerModel;
 import redisClient = require('../../redisClient');
 var parseString = xml2js.parseString;
-
-
-var data = fs.readFileSync('./config/config.json', 'UTF-8');
-var config = JSON.parse(data);
+import config = require('../../config');
 
 var inoplaURL = "https://schnittstelle.inopla.de/cdr/cdr_in_out.php?id=" + config.inopla.id + "&psec=" + config.inopla.psec + "&last_calls=500";
 

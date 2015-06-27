@@ -9,7 +9,6 @@
   "jira": {
     "host": "<yourdomain>.atlassian.net",
     "port": 443,
-    "defaultPath": "/rest/api/2/search",
     "user": "<jirauser>",
     "password": "<jirauserpassword>"
   },

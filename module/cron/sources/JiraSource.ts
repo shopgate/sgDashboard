@@ -16,14 +16,11 @@ import redisClient = require('../../redisClient');
 import request = require('request');
 import es6Promise = require('es6-promise');
 import AbstractSource = require('./AbstractSource');
+import config = require('../../config');
 
 var Promise = es6Promise.Promise;
 var Dashboard = DashboardSchema.DashboardModel;
 var Widget = WidgetSchema.WidgetModel;
-
-
-var data = fs.readFileSync('./config/config.json', 'UTF-8');
-var config = JSON.parse(data);
 
 var jira = new JiraConnector({
 	host: config.jira.host,

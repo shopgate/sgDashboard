@@ -12,16 +12,12 @@ import _ = require('underscore');
 
 import AbstractSource = require('./AbstractSource');
 import redisClient = require('../../redisClient');
+import config = require('../../config');
 import LightState = require('../../Objects/LightState');
 import WidgetSchema = require('../../../databaseSchema/Widget');
 import LightTriggerSchema = require('../../../databaseSchema/LightTrigger');
 var Widget = WidgetSchema.WidgetModel;
 var LightTrigger = LightTriggerSchema.LightTriggerModel;
-
-
-var data:any;
-data = fs.readFileSync('./config/config.json', 'UTF-8');
-var config = JSON.parse(data);
 
 var zendeskClient = nodeZendesk.createClient(config.zendesk);
 

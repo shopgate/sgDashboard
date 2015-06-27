@@ -16,15 +16,13 @@ import WidgetSchema = require('../../../databaseSchema/Widget');
 import LightTriggerSchema = require('../../../databaseSchema/LightTrigger');
 import LightState = require('../../Objects/LightState');
 import redisClient = require('../../redisClient');
+import config = require('../../config');
 
 var Promise = es6Promise.Promise;
 var Widget = WidgetSchema.WidgetModel;
 var LightTrigger = LightTriggerSchema.LightTriggerModel;
 
 
-//get config
-var jsonString = fs.readFileSync('./config/config.json', 'UTF-8');
-var json = JSON.parse(jsonString);
 
 /******** Interfaces ********/
 
@@ -42,8 +40,8 @@ interface GoogleOAuthSetting {
 /******** Settings ********/
 
 var oAuthSettings:GoogleOAuthSetting = {
-	clientId: json.googleOauth.clientId,
-	clientSecret: json.googleOauth.clientSecret,
+	clientId: config.googleOauth.clientId,
+	clientSecret: config.googleOauth.clientSecret,
 	redirectUrl: "http://localhost:8080/auth/googleCallback"
 };
 
@@ -65,7 +63,7 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 		this.oAuthClient = new google.auth.OAuth2(oAuthSettings.clientId, oAuthSettings.clientSecret, oAuthSettings.redirectUrl);
 		this.oAuthClient.setCredentials({
 			access_token: "",
-			refresh_token: json.googleOauth.apiUserRefreshToken
+			refresh_token: config.googleOauth.apiUserRefreshToken
 		});
 
 		this.oAuthClient.refreshAccessToken(function () {

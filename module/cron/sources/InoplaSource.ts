@@ -12,6 +12,7 @@ import async = require('async');
 import moment = require('moment');
 import momentTimezone = require('moment-timezone');
 import AbstractSource = require('./AbstractSource');
+import lightHandler = require('../../LightHandler');
 import InoplaCall = require('../../Objects/InoplaCall');
 import WidgetSchema = require('../../../databaseSchema/Widget');
 import LightState = require('../../Objects/LightState');
@@ -230,13 +231,14 @@ class InoplaSource extends AbstractSource.AbstractSource {
 
 				return new Promise(function (resolved, rejected) {
 					var calls = _this.filterCallsFromLastMinutes(_this.calls, _this.lastMinutes);
-					var lights = {};
+					var lights:LightState.LightState[] = [];
 					async.eachLimit(lightTriggers, 5, function (lightTrigger:LightTriggerSchema.ILightTrigger, callback) {
 						var lightState:LightState.LightState;
 
 						var reachabilityPercent = _this.calcReachability.call(_this, calls, lightTrigger.dataSource.queries.sourceQuery);
 						var color = <LightState.LightColor> parseInt(_this.getLightStatusForValue(lightTrigger, reachabilityPercent));
-						lights = _this.createLightStates(color, lightTrigger, lights);
+						var newLightStates = lightHandler.createLightStates(color, lightTrigger);
+						lights = lights.concat(newLightStates);
 						callback();
 
 					}, function (err:Error) {

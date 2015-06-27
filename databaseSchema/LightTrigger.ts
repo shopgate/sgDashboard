@@ -11,7 +11,7 @@ var LightTriggerSchema = new mongoose.Schema({
 
 	title: String,
 	dataSource: {
-		sourceSystem: {type: String, required: true, enum: ['jira', 'zendesk', 'google-docs', 'api-trigger', 'inopla', 'google']},
+		sourceSystem: {type: String, required: true, enum: ['jira', 'zendesk', 'google-docs', 'apitrigger', 'inopla', 'google']},
 		type: {type: String},
 		queries: mongoose.Schema.Types.Mixed
 	},

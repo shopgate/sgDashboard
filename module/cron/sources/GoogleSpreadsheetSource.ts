@@ -11,6 +11,7 @@ import google = require("googleapis");
 import GoogleSpreadsheets = require("google-spreadsheets");
 import es6Promise = require('es6-promise');
 import AbstractSource = require('./AbstractSource');
+import lightHandler = require('../../LightHandler');
 import WidgetSchema = require('../../../databaseSchema/Widget');
 import LightTriggerSchema = require('../../../databaseSchema/LightTrigger');
 import LightState = require('../../Objects/LightState');
@@ -266,7 +267,7 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 	 */
 	private _executeLightTrigger(lightTriggers) {
 		var _this = this;
-		var lights = {};
+		var lights:LightState.LightState[] = [];
 		return new Promise(function (resolved, rejected) {
 
 			//run 5 request parallel
@@ -286,7 +287,8 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 							}
 						}
 
-						lights = _this.createLightStates(color, lightTrigger, lights);
+						var newLightStates = lightHandler.createLightStates(color, lightTrigger);
+						lights = lights.concat(newLightStates);
 						callback();
 					}).catch(function (err) {
 						callback(err);

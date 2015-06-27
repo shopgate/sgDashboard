@@ -3,6 +3,7 @@
 ///<reference path='../typings/underscore/underscore.d.ts' />
 import express = require('express');
 import winston = require("winston");
+import crypto = require("crypto");
 import _ = require("underscore");
 import DashboardSchema = require('../databaseSchema/Dashboard');
 import Location = require('../module/Objects/Location');
@@ -255,12 +256,17 @@ router.get('/ajax_lighttrigger', function (req, res, next) {
 	}
 
 	var lighttriggerPaths = lighttriggerPath.split('/');
+	var randomString:string = null;
+	if(lighttriggerPaths[0] == "apitrigger") {
+		randomString = crypto.createHash('sha1').update("abcdef" + Math.random()).digest('hex');
+	}
 
 	res.render('admin/elements/light_trigger/' + lighttriggerPaths[0] + '/' + lighttriggerPaths[1], {
 		color: LightState.LightColor,
 		lightOnLocation: lightsOnLocation,
 		locationNames: Location.names,
-		formattedLightIds : {}
+		formattedLightIds : {},
+		randomString : randomString
 	});
 
 
@@ -290,7 +296,7 @@ router.post('/lighttrigger', function (req, res) {
 	});
 	data.lights = formattedLights;
 
-	//edit lighttrigger
+	//create lighttrigger
 	if (!data.id) {
 		data['board'] = data.dashboardId;
 		var lightTrigger = new LightTrigger(data);

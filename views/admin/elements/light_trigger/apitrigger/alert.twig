@@ -1,0 +1,42 @@
+<div class="modal-body">
+
+    {% if not lighttrigger is empty  %}
+        <input type="hidden" name="id" value="{{ lighttrigger._id }}">
+    {% endif %}
+
+    <input type="hidden" name="dataSource[sourceSystem]" value="apitrigger" />
+    <input type="hidden" name="dataSource[type]" value="alert" />
+    <input type="hidden" name="triggerType" value="newValue" />
+    <input type="hidden" name="lightStatus[state]" value="alert" />
+
+    <!-- Title -->
+    <div class="form-group">
+        <label>Title</label>
+        <input type="text" class="form-control" required="required"
+               name="title" value="{{ lighttrigger.title|e('html_attr') }}">
+    </div>
+
+    <div class="form-group">
+        <label>Apikey</label>
+        <input type="text" class="form-control" placeholder="" required="required"
+               name="dataSource[queries][sourceQuery]" value="{{ lighttrigger.dataSource.queries.sourceQuery|e('html_attr')|default(randomString) }}">
+    </div>
+    
+    <div class="form-group">
+        <label>APIURL</label>
+        <input type="text" class="form-control" required="required" readonly
+               value="http://localhost:8080/apitrigger/{{ lighttrigger.dataSource.queries.sourceQuery|e('html_attr')|default(randomString) }}">
+    </div>
+
+    {% include 'admin/elements/light_trigger/lights_chooser.twig' %}
+    {% include 'admin/elements/light_trigger/color_chooser_alert.twig' %}
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">{{ (lighttrigger is empty) ? "Add lighttrigger" : "Save" }}</button>
+</div>
+<script type="application/javascript">
+
+
+</script>

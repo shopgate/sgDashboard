@@ -1,0 +1,30 @@
+<div class="col-xs-{{ widget.position.column }}">
+    <div class="box">
+
+        <div class="box-header with-border">
+            <h3 class="box-title">{{ widget.title }}</h3>
+        </div>
+        <div class="box-body widget-value"  id="{{ widget.key }}">
+            <table class="table table-responsive table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Branch</th>
+                        <th>Commits behind default branch</th>
+                        <th>Commits ahead default branch</th>
+                        <th>Last committer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="branch in widget.{{ widget.key }} | orderBy:'+timestamp'"">
+                        <td><i class="ion ion-merge"></i></td>
+                        <td>{{ "{{branch.displayId}}" }}</td>
+                        <td>{{ "{{branch.behind}}" }}</td>
+                        <td>{{ "{{branch.ahead}}" }}</td>
+                        <td>{{ "{{branch.author.name}}" }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

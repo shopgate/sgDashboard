@@ -33,6 +33,7 @@ router.get('/dashboard/:dashboardKey', function (req:express.Request, res:expres
 
 		Widget.find({board: dashboard._id}).sort({'position.page': 1, 'position.row': 1, 'position.column_index': 1}).exec(function (err, widgets) {
 			var widgetsPerPage = {};
+			var widgetKeys = [];
 
 			//create an object with the pagenumber as index
 			_.each(widgets, function (widget) {
@@ -45,10 +46,17 @@ router.get('/dashboard/:dashboardKey', function (req:express.Request, res:expres
 				}
 
 				widgetsPerPage[widget.position.page].push(widget);
+				widgetKeys.push(widget.key);
 
 			});
 
-			res.render('index/dashboard', {pageTitle: dashboard.name, dashboard: dashboard, widgets: widgets, widgetsPerPage: widgetsPerPage});
+			res.render('index/dashboard', {
+				pageTitle: dashboard.name,
+				dashboard: dashboard,
+				widgets: widgets,
+				widgetsPerPage: widgetsPerPage,
+				widgetKeys: widgetKeys
+			});
 
 		})
 

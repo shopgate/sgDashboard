@@ -2,7 +2,7 @@
     <!-- small box -->
     <div class="small-box bg-{{ widget.appearance.color }}">
         <div class="inner">
-            <h3 id="{{ widget.key }}" class="widget-value">0</h3>
+            <h3 class="widget-value">{{ "{{ widget." ~ widget.key ~ "}}" }}</h3>
             <p>{{ widget.title }}</p>
         </div>
         <div class="icon">

@@ -4,8 +4,15 @@
         <div class="box-header with-border">
             <h3 class="box-title">{{ widget.title }}</h3>
         </div>
-        <div class="box-body widget-value"  id="{{ widget.key }}">
-
+        <div class="box-body widget-value" id="{{ widget.key }}">
+            <div class="progress-group" ng-repeat="worklog in widget.{{ widget.key }}.approvals">
+                <div class="progress-text">{{ "{{worklog.user.displayName}}" }}</div>
+                <div class="progress-number">{{ "{{worklog.workedSeconds | toHHMMSS}} / {{worklog.requiredSeconds | toHHMMSS}}" }}</div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-green" style="width: {{ "{{ worklog.requiredSeconds == 0 ? 100 : (worklog.workedSeconds / worklog.requiredSeconds)*100}}" }}%;"></div>
+                    <div class="progress-marker"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

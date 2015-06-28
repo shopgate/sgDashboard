@@ -17,12 +17,14 @@ import JiraSource = require('./sources/JiraSource');
 import ZendeskSource = require('./sources/ZendeskSource');
 import InoplaSource = require('./sources/InoplaSource');
 import GoogleSpreadsheetSource = require('./sources/GoogleSpreadsheetSource');
+import StashSource = require('./sources/StashSource');
 
 
 var zendeskSource = new ZendeskSource();
 var jiraSource = new JiraSource();
 var inoplaSource = new InoplaSource();
 var googleSpreadsheetSource = new GoogleSpreadsheetSource();
+var stashSource = new StashSource();
 
 
 new CronJob('*/15 * * * * *', function () {
@@ -31,6 +33,7 @@ new CronJob('*/15 * * * * *', function () {
     zendeskSource.execute();
     inoplaSource.execute();
     googleSpreadsheetSource.execute();
+	stashSource.execute();
 
 
 }, null, true);

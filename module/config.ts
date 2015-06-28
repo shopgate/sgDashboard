@@ -31,6 +31,11 @@ interface Config {
 		id:string;
 		psec:string;
 	}
+	stash?: {
+		host:string;
+		username:string;
+		password:string;
+	}
 }
 
 //load config

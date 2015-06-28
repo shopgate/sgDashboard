@@ -26,5 +26,10 @@
   "inopla": {
     "id": "<yourInoplaId>",
     "psec": "<yourInoplaSecret"
+  },
+  "stash": {
+    "host": "<stash host>",
+    "username": "<stash username>",
+    "password": "<stash password>"
   }
 }

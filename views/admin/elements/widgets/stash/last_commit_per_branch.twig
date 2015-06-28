@@ -1,0 +1,48 @@
+<div class="modal-body">
+
+    {% if not widget is empty %}
+        <input type="hidden" name="id" value="{{ widget._id }}">
+    {% endif %}
+
+    <input type="hidden" name="source" value="stash">
+    <input type="hidden" name="type" value="last_commit_per_branch">
+    {% include 'admin/elements/widgets/general.twig' %}
+
+    <!-- Search keyword -->
+    <div class="form-group">
+        <label>Search keyword</label>
+        <input type="text" class="form-control" placeholder="e.g. WEB" required="required"
+               name="query[keyword]" value="{{ widget.query.keyword|e('html_attr') }}">
+    </div>
+
+    <div class="row">
+
+        <div class="col-xs-6">
+            <!-- Limit -->
+            <div class="form-group">
+                <label>Max count of the branches</label>
+                <input type="number" class="form-control" placeholder="5" min="1" required="required"
+                       name="query[limit]" value="{{ widget.query.limit|default(5) }}">
+            </div>
+        </div>
+
+        <div class="col-xs-6">
+            <!-- Sort order -->
+            <div class="form-group">
+                <label>Sort order</label>
+                <select name="query[order]" class="form-control" required="required">
+                    <option value="ALPHABETICAL" {{ widget.query.order == "ALPHABETICAL" ? "selected" : "" }}>Order by name</option>
+                    <option value="MODIFICATION" {{ widget.query.order == "MODIFICATION" ? "selected" : "" }}>Order by last updated</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+    {% include 'admin/elements/apperance.twig' %}
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">{{ widget is empty ? "Add widget" : "Save" }}</button>
+</div>

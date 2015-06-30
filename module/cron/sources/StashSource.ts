@@ -54,6 +54,11 @@ class StashSource extends AbstractSource.AbstractSource {
 
 				var formattedBranches = [];
 				_.each(branches, function (element) {
+
+					if (!element.metadata['com.atlassian.stash.stash-branch-utils:ahead-behind-metadata-provider']) {
+						return;
+					}
+
 					var branch = {
 						displayId: element.displayId,
 						ahead: element.metadata['com.atlassian.stash.stash-branch-utils:ahead-behind-metadata-provider'].ahead,

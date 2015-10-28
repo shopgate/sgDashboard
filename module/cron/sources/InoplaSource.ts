@@ -192,6 +192,13 @@ class InoplaSource extends AbstractSource.AbstractSource {
 
 				parseString(body, function (err, result) {
 					var inoplaCalls:Array<InoplaCall> = [];
+
+					//check if inopla is sending valid call data
+					if (!result || !result['cdr_data'] || !result['cdr_data']['cdr_in']) {
+						resolved(inoplaCalls);
+						return;
+					}
+
 					_.each(result['cdr_data']['cdr_in'], function (data) {
 						var call:InoplaCall;
 						call = {

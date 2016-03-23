@@ -11,7 +11,7 @@ var WidgetSchema = new mongoose.Schema({
 	key: {type: String, required: true, unique: true},
 	title: {type: String, required: true},
 	board: {type: String, required: true},
-	source: {type: String, required: true, enum: ['jira', 'zendesk', 'google-docs', 'web', 'inopla', 'google', 'stash']},
+	source: {type: String, required: true, enum: ['jira', 'zendesk', 'google-docs', 'web', 'inopla', 'google', 'stash', 'general']},
 	type: {type: String, required: true},
 	query: {type: mongoose.Schema.Types.Mixed, required: true},
 	position: {

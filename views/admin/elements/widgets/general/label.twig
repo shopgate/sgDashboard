@@ -1,0 +1,24 @@
+<div class="modal-body">
+
+    {% if not widget is empty %}
+        <input type="hidden" name="id" value="{{ widget._id }}">
+    {% endif %}
+
+    <input type="hidden" name="source" value="general">
+    <input type="hidden" name="type" value="label">
+    {% include 'admin/elements/widgets/general.twig' %}
+
+    <!-- Query -->
+    <div class="form-group">
+        <label>Label</label>
+        <input type="text" class="form-control" placeholder="e.g. My Awesome Dashboard" required="required"
+               name="query[label]" value="{{ widget.query.label|e('html_attr') }}">
+    </div>
+
+    {% include 'admin/elements/apperance.twig' %}
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">{{ (widget is empty) ? "Add widget" : "Save" }}</button>
+</div>

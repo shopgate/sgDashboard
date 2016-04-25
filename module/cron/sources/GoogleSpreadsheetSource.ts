@@ -1,24 +1,19 @@
-/// <reference path='../../../typings/node/node.d.ts' />
-/// <reference path='../../../typings/googleappis/googleapis.d.ts' />
-/// <reference path='../../../typings/es6-promise/es6-promise.d.ts' />
-/// <reference path='../../../typings/google-spreadsheets/google-spreadsheets.d.ts' />
-/// <reference path='../../../typings/underscore/underscore.d.ts' />
+/// <reference path='../../../typings/tsd.d.ts' />
 import fs = require('fs');
 import winston = require('winston');
 import _ = require('underscore');
 import async = require('async');
 import google = require("googleapis");
 import GoogleSpreadsheets = require("google-spreadsheets");
-import es6Promise = require('es6-promise');
+import Promise = require('bluebird');
 import AbstractSource = require('./AbstractSource');
 import lightHandler = require('../../LightHandler');
 import WidgetSchema = require('../../../databaseSchema/Widget');
 import LightTriggerSchema = require('../../../databaseSchema/LightTrigger');
 import LightState = require('../../Objects/LightState');
 import redisClient = require('../../redisClient');
-import config = require('../../config');
+import config = require('config');
 
-var Promise = es6Promise.Promise;
 var Widget = WidgetSchema.WidgetModel;
 var LightTrigger = LightTriggerSchema.LightTriggerModel;
 
@@ -40,8 +35,8 @@ interface GoogleOAuthSetting {
 /******** Settings ********/
 
 var oAuthSettings:GoogleOAuthSetting = {
-	clientId: config.googleOauth.clientId,
-	clientSecret: config.googleOauth.clientSecret,
+	clientId: <string> config.get('googleOauth.clientId'),
+	clientSecret: <string> config.get('googleOauth.clientSecret'),
 	redirectUrl: "http://localhost:8080/auth/googleCallback"
 };
 
@@ -63,7 +58,7 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 		this.oAuthClient = new google.auth.OAuth2(oAuthSettings.clientId, oAuthSettings.clientSecret, oAuthSettings.redirectUrl);
 		this.oAuthClient.setCredentials({
 			access_token: "",
-			refresh_token: config.googleOauth.apiUserRefreshToken
+			refresh_token: <string> config.get('googleOauth.apiUserRefreshToken')
 		});
 
 		this.oAuthClient.refreshAccessToken(function () {

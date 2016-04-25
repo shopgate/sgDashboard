@@ -6,62 +6,59 @@ import winston = require("winston");
 import _ = require("underscore");
 import DashboardSchema = require('../databaseSchema/Dashboard');
 import WidgetSchema = require('../databaseSchema/Widget');
-var Dashboard = DashboardSchema.DashboardModel;
-var Widget = WidgetSchema.WidgetModel;
-var router = express.Router();
+let Dashboard = DashboardSchema.DashboardModel;
+let Widget = WidgetSchema.WidgetModel;
+let router:express.Router = express.Router();
 
 
 router.get('/', function (req, res) {
 
-	Dashboard.find({}).sort({location: 1, name: 1}).exec(function (err, dashboards) {
-		res.render('index/index', {"dashboards": dashboards, pageTitle: "Available Dashboards"});
-	})
+    Dashboard.find({}).sort({location: 1, name: 1}).exec(function (err, dashboards) {
+        res.render('index/index', {"dashboards": dashboards, pageTitle: "Available Dashboards"});
+    })
 
 });
 
-/**
- *
- */
 router.get('/dashboard/:dashboardKey', function (req:express.Request, res:express.Response) {
 
-	Dashboard.findOne({key: req.params.dashboardKey}).exec(function (err, dashboard:DashboardSchema.IDashboard) {
-		if (!dashboard) {
-			res.status(404);
-			res.end("No board found");
-			return;
-		}
+    Dashboard.findOne({key: req.params.dashboardKey}).exec(function (err, dashboard:DashboardSchema.IDashboard) {
+        if (!dashboard) {
+            res.status(404);
+            res.end("No board found");
+            return;
+        }
 
-		Widget.find({board: dashboard._id}).sort({'position.page': 1, 'position.row': 1, 'position.column_index': 1}).exec(function (err, widgets) {
-			var widgetsPerPage = {};
-			var widgetKeys = [];
+        Widget.find({board: dashboard._id}).sort({'position.page': 1, 'position.row': 1, 'position.column_index': 1}).exec(function (err, widgets) {
+            var widgetsPerPage = {};
+            var widgetKeys = [];
 
-			//create an object with the pagenumber as index
-			_.each(widgets, function (widget) {
-				if(!widget.position.page) {
-					widget.position.page = 0;
-				}
+            //create an object with the pagenumber as index
+            _.each(widgets, function (widget) {
+                if (!widget.position.page) {
+                    widget.position.page = 0;
+                }
 
-				if(!widgetsPerPage[widget.position.page]) {
-					widgetsPerPage[widget.position.page] = [];
-				}
+                if (!widgetsPerPage[widget.position.page]) {
+                    widgetsPerPage[widget.position.page] = [];
+                }
 
-				widgetsPerPage[widget.position.page].push(widget);
-				widgetKeys.push(widget.key);
+                widgetsPerPage[widget.position.page].push(widget);
+                widgetKeys.push(widget.key);
 
-			});
+            });
 
-			res.render('index/dashboard', {
-				pageTitle: dashboard.name,
-				dashboard: dashboard,
-				widgets: widgets,
-				widgetsPerPage: widgetsPerPage,
-				widgetKeys: widgetKeys
-			});
+            res.render('index/dashboard', {
+                pageTitle: dashboard.name,
+                dashboard: dashboard,
+                widgets: widgets,
+                widgetsPerPage: widgetsPerPage,
+                widgetKeys: widgetKeys
+            });
 
-		})
+        })
 
-	});
+    });
 
 });
 
-module.exports = router;
+export = router;

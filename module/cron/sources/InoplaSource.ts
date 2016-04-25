@@ -1,9 +1,5 @@
-/// <reference path='../../../typings/xml2js/xml2js.d.ts' />
-/// <reference path='../../../typings/winston/winston.d.ts' />
-/// <reference path='../../../typings/underscore/underscore.d.ts' />
-/// <reference path='../../../typings/request/request.d.ts' />
-/// <reference path='../../../typings/async/async.d.ts' />
-/// <reference path='../../../typings/moment-timezone/moment-timezone.d.ts' />
+/// <reference path='../../../typings/tsd.d.ts' />
+
 import winston = require('winston');
 import xml2js = require('xml2js');
 import request = require('request');
@@ -22,9 +18,9 @@ import LightTriggerSchema = require('../../../databaseSchema/LightTrigger');
 var LightTrigger = LightTriggerSchema.LightTriggerModel;
 import redisClient = require('../../redisClient');
 var parseString = xml2js.parseString;
-import config = require('../../config');
+import config = require('config');
 
-var inoplaURL = "https://schnittstelle.inopla.de/cdr/cdr_in_out.php?id=" + config.inopla.id + "&psec=" + config.inopla.psec + "&last_calls=500";
+let inoplaURL = "https://schnittstelle.inopla.de/cdr/cdr_in_out.php?id=" + config.get('inopla.id') + "&psec=" + config.get('inopla.psec') + "&last_calls=500";
 
 class InoplaSource extends AbstractSource.AbstractSource {
 
@@ -61,7 +57,7 @@ class InoplaSource extends AbstractSource.AbstractSource {
 		var extenstionArray = [];
 		_.each(extenstionStringArray, function (element) {
 			extenstionArray.push(parseInt(element));
-		})
+		});
 
 		return _.filter(calls, function (call) {
 			return _.contains(extenstionArray, call.ddi) && call.successfully == true

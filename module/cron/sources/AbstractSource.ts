@@ -1,35 +1,21 @@
-/// <reference path='../../../typings/node/node.d.ts' />
-/// <reference path='../../../typings/es6-promise/es6-promise.d.ts' />
-/// <reference path='../../../typings/cron/cron.d.ts' />
-/// <reference path='../../../typings/winston/winston.d.ts' />
-/// <reference path='../../../typings/async/async.d.ts' />
-/// <reference path='../../../typings/jira-connector/jira-connector.d.ts' />
-/// <reference path='../../../typings/moment/moment.d.ts' />
-/// <reference path='../../../typings/underscore/underscore.d.ts' />
-/// <reference path='../../../typings/request/request.d.ts' />
-
+/// <reference path='../../../typings/tsd.d.ts' />
 import cron = require('cron');
 import fs = require('fs');
-
 import _ = require('underscore');
 import redisClient = require('../../redisClient');
-
 import request = require('request');
 import winston = require('winston');
 import async = require('async');
-import es6Promise = require('es6-promise');
-var Promise = es6Promise.Promise;
+import Promise = require('bluebird');
 
 
 import websocketHandler = require('../../WebsocketHandler');
 import lightHandler = require('../../LightHandler');
 import LightState = require('../../Objects/LightState');
 import Location = require('../../Objects/Location');
-var LocationValues = Location.values;
 import DashboardSchema = require('../../../databaseSchema/Dashboard');
 var Dashboard = DashboardSchema.DashboardModel;
 import WidgetSchema = require('../../../databaseSchema/Widget');
-var Widget = WidgetSchema.WidgetModel;
 import LightTriggerSchema = require('../../../databaseSchema/LightTrigger');
 var LightTrigger = LightTriggerSchema.LightTriggerModel;
 

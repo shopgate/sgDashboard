@@ -1,12 +1,7 @@
-///<reference path='../typings/mongoose/mongoose.d.ts' />
-///<reference path='../typings/winston/winston.d.ts' />
-///<reference path='../typings/es6-promise/es6-promise.d.ts' />
-
+///<reference path='../typings/tsd.d.ts' />
 import mongoose = require("mongoose");
 import winston = require("winston");
-import es6Promise = require('es6-promise');
-
-var Promise = es6Promise.Promise;
+import Promise = require('bluebird');
 
 
 var DashboardSchema = new mongoose.Schema({
@@ -28,7 +23,7 @@ DashboardSchema.static('findWithPromise', function (conditions:Object) {
 			resolved(data);
 		})
 	})
-})
+});
 
 
 export interface IDashboard extends mongoose.Document {

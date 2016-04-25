@@ -34,8 +34,8 @@ $ tsc
 
 Just copy the `config.default.json` to `config.json` and edit it:
 ```bash
-$ cp config/config.default.json config/config.json
-$ vi sgDashboard
+$ cp config/default.json config/local.json
+$ vi config/local.json
 ```
 
 

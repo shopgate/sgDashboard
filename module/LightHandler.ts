@@ -4,8 +4,7 @@ import async = require('async');
 import _ = require('underscore');
 import websocketHandler = require('./WebsocketHandler');
 import LightTriggerSchema = require('../databaseSchema/LightTrigger');
-import es6Promise = require('es6-promise');
-var Promise = es6Promise.Promise;
+import Promise = require('bluebird');
 
 class LightHandler {
 	private lights = {};

@@ -1,25 +1,26 @@
-var express = require('express');
-var path = require('path');
-var fs = require('fs');
-var twig = require('twig');
-var logger = require('morgan');
-var config = require('./config/config.json');
-var bodyParser = require('body-parser');
-var routes = require('./routes/index');
-var adminRoutes = require('./routes/admin');
-var apitriggerRoutes = require('./routes/apitrigger');
+///<reference path='./typings/tsd.d.ts' />
+import express = require('express');
+import path = require('path');
+import fs = require('fs');
+import twig = require('twig');
+import logger = require('morgan');
+import config = require('config');
+import bodyParser = require('body-parser');
+import routes = require('./routes/index');
+import adminRoutes = require('./routes/admin');
+import apitriggerRoutes = require('./routes/apitrigger');
 
-var app = express();
-var http = require('http').Server(app);
+let app = express();
+let http = require('http').Server(app);
 
 
 //setup mongodb
 var mongoose = require('mongoose');
 //mongoose.set('debug', true);
-mongoose.connect(config.global.mongoose.uri, config.global.mongoose.options, function (err) {
-	if (err) {
-		winston.error(err);
-	}
+mongoose.connect(config.get('global.mongoose.uri'), config.get('global.mongoose.options'), function (err) {
+    if (err) {
+        winston.error(err);
+    }
 });
 
 
@@ -41,7 +42,7 @@ app.set('view engine', 'twig');
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.json());       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded()); // to support URL-encoded bodies
+app.use(bodyParser.urlencoded({ extended: false })); // to support URL-encoded bodies
 app.use(logger('dev'));
 
 //add debugging tools
@@ -57,5 +58,5 @@ app.use('/', routes);
 app.use('/admin', adminRoutes);
 app.use('/apitrigger', apitriggerRoutes);
 
-http.listen(config.global.port);
-console.log('Listening on port ' + config.global.port);
+http.listen(config.get('global.port'));
+console.log('Listening on port ' + config.get('global.port'));

@@ -1,9 +1,4 @@
-/// <reference path='../../../typings/node/node.d.ts' />
-/// <reference path='../../../typings/winston/winston.d.ts' />
-/// <reference path='../../../typings/async/async.d.ts' />
-/// <reference path='../../../typings/underscore/underscore.d.ts' />
-/// <reference path='../../../typings/jira-connector/jira-connector.d.ts' />
-/// <reference path='../../../typings/request/request.d.ts' />
+/// <reference path='../../../typings/tsd.d.ts' />
 import fs = require('fs');
 import winston = require('winston');
 import async = require('async');
@@ -14,19 +9,18 @@ import WidgetSchema = require('../../../databaseSchema/Widget');
 import websocketHandler = require('../../WebsocketHandler');
 import redisClient = require('../../redisClient');
 import request = require('request');
-import es6Promise = require('es6-promise');
+import Promise = require('bluebird');
 import AbstractSource = require('./AbstractSource');
-import config = require('../../config');
+import config = require('config');
 
-var Promise = es6Promise.Promise;
 var Dashboard = DashboardSchema.DashboardModel;
 var Widget = WidgetSchema.WidgetModel;
 
 var jira = new JiraConnector({
-	host: config.jira.host,
+	host: <string> config.get('jira.host'),
 	basic_auth: {
-		username: config.jira.user,
-		password: config.jira.password
+		username: <string> config.get('jira.user'),
+		password: <string> config.get('jira.password')
 	}
 });
 
@@ -126,12 +120,12 @@ class JiraSource extends AbstractSource.AbstractSource {
 	private _getWorklog(teamNumber:number) {
 		return new Promise(function (resolved, rejected) {
 
-			var url = "https://" + config.jira.host + "/rest/tempo-rest/2.0/timesheet-approval?team=" + teamNumber;
+			var url = "https://" + config.get('jira.host') + "/rest/tempo-rest/2.0/timesheet-approval?team=" + teamNumber;
 			var requestConfig = {
 				'url': url,
 				'auth': {
-					'user': config.jira.user,
-					'pass': config.jira.password,
+					'user': <string> config.get('jira.user'),
+					'pass': <string> config.get('jira.password'),
 					'sendImmediately': true
 				}
 			};

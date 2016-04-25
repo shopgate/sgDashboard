@@ -1,15 +1,14 @@
 import AbstractSource = require('./AbstractSource');
 import winston = require('winston');
 import WidgetSchema = require('../../../databaseSchema/Widget');
-import es6Promise = require('es6-promise');
+import Promise = require('bluebird');
 import request = require('request');
 import async = require('async');
 import _ = require('underscore');
-import config = require('../../config');
+import config = require('config');
 import IStashBranchResponse = require('../../Objects/IStashBranchResponse');
 
 var Widget = WidgetSchema.WidgetModel;
-var Promise = es6Promise.Promise;
 
 interface ILastCommitStashWidget extends WidgetSchema.IWidget {
 	query : {
@@ -32,11 +31,11 @@ class StashSource extends AbstractSource.AbstractSource {
 		return new Promise(function (resolved, rejected) {
 			
 			//prepare url
-			var url = "https://" + config.stash.host + "/rest/api/latest/projects/SG/repos/shopgate/branches";
+			var url = "https://" + config.get('stash.host') + "/rest/api/latest/projects/SG/repos/shopgate/branches";
 			url += "?details=true&start=0&limit=1000&orderBy=" + widget.query.order + "&filterText=" + widget.query.keyword;
 			winston.debug("Do request to url" + url);
 			//do request
-			request(url, {auth: {user: config.stash.username, pass: config.stash.password, sendImmediately: true}}, function (error, response, body) {
+			request(url, {auth: {user: config.get('stash.username'), pass: config.get('stash.password'), sendImmediately: true}}, function (error, response, body) {
 
 				if (error) {
 					rejected(error);
@@ -127,7 +126,6 @@ class StashSource extends AbstractSource.AbstractSource {
 
 	}
 
-	
 	
 	execute() {
 

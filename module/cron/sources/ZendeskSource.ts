@@ -1,8 +1,4 @@
-/// <reference path='../../../typings/winston/winston.d.ts' />
-/// <reference path='../../../typings/node-zendesk/node-zendesk.d.ts' />
-/// <reference path='../../../typings/async/async.d.ts' />
-/// <reference path='../../../typings/moment/moment.d.ts' />
-/// <reference path='../../../typings/underscore/underscore.d.ts' />
+/// <reference path='../../../typings/tsd.d.ts' />
 import winston = require('winston');
 import fs = require('fs');
 import async = require('async');
@@ -12,14 +8,13 @@ import _ = require('underscore');
 
 import AbstractSource = require('./AbstractSource');
 import redisClient = require('../../redisClient');
-import config = require('../../config');
+import config = require('config');
 import LightState = require('../../Objects/LightState');
 import WidgetSchema = require('../../../databaseSchema/Widget');
 import LightTriggerSchema = require('../../../databaseSchema/LightTrigger');
 var Widget = WidgetSchema.WidgetModel;
-var LightTrigger = LightTriggerSchema.LightTriggerModel;
 
-var zendeskClient = nodeZendesk.createClient(config.zendesk);
+var zendeskClient = nodeZendesk.createClient(<nodeZendesk.ZendeskConfig> config.get('zendesk'));
 
 class ZendeskSource extends AbstractSource.AbstractSource {
 

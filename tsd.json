@@ -6,7 +6,37 @@
   "bundle": "typings/tsd.d.ts",
   "installed": {
     "request/request.d.ts": {
-      "commit": "2c96e9e77765b72ce43ab8163f42e504f3e2facb"
+      "commit": "310c247694d7f31bd2e3198f71c55221f7c3a3c7"
+    },
+    "winston/winston.d.ts": {
+      "commit": "310c247694d7f31bd2e3198f71c55221f7c3a3c7"
+    },
+    "twig/twig.d.ts": {
+      "commit": "310c247694d7f31bd2e3198f71c55221f7c3a3c7"
+    },
+    "morgan/morgan.d.ts": {
+      "commit": "310c247694d7f31bd2e3198f71c55221f7c3a3c7"
+    },
+    "serve-static/serve-static.d.ts": {
+      "commit": "310c247694d7f31bd2e3198f71c55221f7c3a3c7"
+    },
+    "express-serve-static-core/express-serve-static-core.d.ts": {
+      "commit": "310c247694d7f31bd2e3198f71c55221f7c3a3c7"
+    },
+    "mime/mime.d.ts": {
+      "commit": "310c247694d7f31bd2e3198f71c55221f7c3a3c7"
+    },
+    "body-parser/body-parser.d.ts": {
+      "commit": "310c247694d7f31bd2e3198f71c55221f7c3a3c7"
+    },
+    "config/config.d.ts": {
+      "commit": "310c247694d7f31bd2e3198f71c55221f7c3a3c7"
+    },
+    "socket.io/socket.io.d.ts": {
+      "commit": "310c247694d7f31bd2e3198f71c55221f7c3a3c7"
+    },
+    "mongoose/mongoose.d.ts": {
+      "commit": "310c247694d7f31bd2e3198f71c55221f7c3a3c7"
     }
   }
 }

@@ -1,14 +1,12 @@
-///<reference path='../typings/express/express.d.ts' />
-///<reference path='../typings/winston/winston.d.ts' />
-///<reference path='../typings/underscore/underscore.d.ts' />
+///<reference path='../typings/tsd.d.ts' />
 import express = require('express');
 import winston = require("winston");
 import _ = require("underscore");
 import LightTriggerSchema = require('../databaseSchema/LightTrigger');
 import lightHandler = require('../module/LightHandler');
 import LightState = require('../module/Objects/LightState');
-var LightTrigger = LightTriggerSchema.LightTriggerModel;
-var router = express.Router();
+let LightTrigger = LightTriggerSchema.LightTriggerModel;
+let router = express.Router();
 
 //landing action for apitrigger
 router.all('/:apikey', function (req, res, next) {
@@ -41,4 +39,4 @@ router.all('/:apikey', function (req, res, next) {
 });
 
 
-module.exports = router;
+export = router;

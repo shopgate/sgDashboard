@@ -35,7 +35,7 @@ class StashSource extends AbstractSource.AbstractSource {
 			url += "?details=true&start=0&limit=1000&orderBy=" + widget.query.order + "&filterText=" + widget.query.keyword;
 			winston.debug("Do request to url" + url);
 			//do request
-			request(url, {auth: {user: config.get('stash.username'), pass: config.get('stash.password'), sendImmediately: true}}, function (error, response, body) {
+			request(url, {auth: {user: <string> config.get('stash.username'), pass: <string> config.get('stash.password'), sendImmediately: true}}, function (error, response, body) {
 
 				if (error) {
 					rejected(error);

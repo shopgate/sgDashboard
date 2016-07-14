@@ -42,7 +42,7 @@ app.set('view engine', 'twig');
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.json());       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({ extended: false })); // to support URL-encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bodies
 app.use(logger('dev'));
 
 //add debugging tools

@@ -120,7 +120,7 @@ class JiraSource extends AbstractSource.AbstractSource {
 	private _getWorklog(teamNumber:number) {
 		return new Promise(function (resolved, rejected) {
 
-			var url = "https://" + config.get('jira.host') + "/rest/tempo-timesheets/3/timesheet-approval?team=" + teamNumber;
+			var url = "https://" + config.get('jira.host') + "/rest/tempo-timesheets/3/timesheet-approval?teamId=" + teamNumber;
 			var requestConfig = {
 				'url': url,
 				'auth': {

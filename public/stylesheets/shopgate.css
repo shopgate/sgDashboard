@@ -1,0 +1,11 @@
+/*---------------------------------*/
+/* Shopgate adapted style settings */
+/*---------------------------------*/
+
+.skin-blue .main-header .navbar {
+    background-color: #2aad59;
+}
+
+.content-wrapper, .right-side {
+    background-color: #eeeeee;
+}

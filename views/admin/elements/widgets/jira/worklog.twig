@@ -10,17 +10,9 @@
 
     <!-- Query -->
     <div class="form-group">
-        <label>Team</label>
-        <select class="form-control" name="query">
-            <option value="1" {{ widget.query == 1 ? 'selected' : '' }}>All Developers</option>
-            <option value="2" {{ widget.query == 2 ? 'selected' : '' }}>Scrum Team Admin</option>
-            <option value="3" {{ widget.query == 3 ? 'selected' : '' }}>Scrum Team Backend</option>
-            <option value="4" {{ widget.query == 4 ? 'selected' : '' }}>Scrum Team Web</option>
-            <option value="5" {{ widget.query == 5 ? 'selected' : '' }}>Scrum Team iOS</option>
-            <option value="14" {{ widget.query == 14 ? 'selected' : '' }}>Scrum Team Android</option>
-            <option value="6" {{ widget.query == 6 ? 'selected' : '' }}>Scrum Team Interfaces</option>
-            <option value="7" {{ widget.query == 7 ? 'selected' : '' }}>Team Operation</option>
-        </select>
+        <label>Team Id</label>
+        <input type="text" class="form-control" placeholder="tempo team id number" required="required"
+               name="query" value="{{ widget.query }}">
     </div>
 
     {% include 'admin/elements/apperance.twig' %}

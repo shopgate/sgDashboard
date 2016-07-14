@@ -7,7 +7,7 @@ sgDashboard
 - [Inopla](https://www.inopla.de/)
 
 ##Requirements
-This project uses the following dependences:
+This project uses the following dependencies:
 - NodeJS
 - Typescript
 - MongoDB

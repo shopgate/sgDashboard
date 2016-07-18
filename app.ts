@@ -49,7 +49,7 @@ app.use(logger('dev'));
 app.use(function (req, res, next) {
     res.locals.debug = function (data) {
         return JSON.stringify(data, null, 2)
-    }
+    };
     next();
 });
 

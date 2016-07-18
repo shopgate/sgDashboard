@@ -18,11 +18,11 @@ let router:express.Router = express.Router();
 router.use(function (req, res, next) {
     res.locals.currentURL = req.originalUrl;
     next();
-})
+});
 
 router.get('/', function (req, res) {
     res.redirect('/admin/dashboards');
-})
+});
 
 router.get('/dashboards', function (req, res) {
 
@@ -34,13 +34,13 @@ router.get('/dashboards', function (req, res) {
 
 router.get('/dashboard_add', function (req, res) {
     res.render('admin/dashboard_add', {pageTitle: "Add a new Dashboard"});
-})
+});
 
 router.post('/dashboard_add', function (req:express.Request, res:express.Response) {
 
     var newDashboard = new Dashboard(req.body);
 
-    Dashboard.create(newDashboard, function (err:Error, data) {
+    Dashboard.create(newDashboard, function (err:Error) {
         if (err) {
             res.json(err);
             return;
@@ -51,7 +51,7 @@ router.post('/dashboard_add', function (req:express.Request, res:express.Respons
     });
 
 
-})
+});
 
 
 router.get('/dashboard_edit/:id', function (req, res) {
@@ -131,12 +131,12 @@ router.get('/ajax_widget', function (req, res, next) {
             res.render('admin/elements/widgets/' + widget.source + '/' + widget.type, {
                 widget: widget
             });
-        })
+        });
         return;
     }
 
 
-    var widgetPath = req.query.widget
+    var widgetPath = req.query.widget;
     if (!widgetPath) {
         next(new Error("No widget param found"));
     }
@@ -155,7 +155,7 @@ router.post('/widget_add/:dashboardKey', function (req, res) {
         dashboard = dashboard[0];
         req.body['board'] = dashboard._id;
         var newWidget = new Widget(req.body);
-        Widget.create(newWidget, function (err:Error, dashboard:DashboardSchema.IDashboard) {
+        Widget.create(newWidget, function (err:Error) {
             if (err) {
                 res.json(err);
                 return;
@@ -167,22 +167,21 @@ router.post('/widget_add/:dashboardKey', function (req, res) {
 });
 
 router.post('/widget/:dashboardId', function (req, res) {
-    winston.debug("/widget");
     //add widget
     if (!req.body.id) {
         req.body['board'] = req.params.dashboardId;
         var newWidget = new Widget(req.body);
-        Widget.create(newWidget, function (err:Error, widget:WidgetSchema.IWidget) {
+        Widget.create(newWidget, function (err:Error) {
             if (err) {
                 res.json(err);
                 return;
             }
             res.redirect('back');
-        })
+        });
         return;
     }
 
-    Widget.findByIdAndUpdate(req.body.id, req.body, function (err:Error, data:WidgetSchema.IWidget) {
+    Widget.findByIdAndUpdate(req.body.id, req.body, function (err:Error) {
 
         if (err) {
             res.json(err);
@@ -221,7 +220,7 @@ router.get('/lights', function (req, res) {
             pageTitle: "Configure the the light trigger"
         });
     })
-})
+});
 
 /**
  * Load the settings mask over ajax
@@ -233,7 +232,7 @@ router.get('/ajax_lighttrigger', function (req, res, next) {
             var formattedLightIds = {};
             _.each(lightTrigger.lights, function (light) {
                 formattedLightIds[light.location + "/" + light.id] = light.id + "/" + light.location;
-            })
+            });
 
 
             res.render('admin/elements/light_trigger/' + lightTrigger.dataSource.sourceSystem + '/' + lightTrigger.dataSource.type, {
@@ -298,7 +297,7 @@ router.post('/lighttrigger', function (req, res) {
     if (!data.id) {
         data['board'] = data.dashboardId;
         var lightTrigger = new LightTrigger(data);
-        LightTrigger.create(lightTrigger, function (err:Error, lightTrigger:LightTriggerSchema.ILightTrigger) {
+        LightTrigger.create(lightTrigger, function (err:Error) {
             if (err) {
                 var output = {
                     error: err,
@@ -309,11 +308,11 @@ router.post('/lighttrigger', function (req, res) {
                 return;
             }
             res.redirect('back');
-        })
+        });
         return;
     }
 
-    LightTrigger.findByIdAndUpdate(req.body.id, req.body, function (err:Error, data:LightTriggerSchema.ILightTrigger) {
+    LightTrigger.findByIdAndUpdate(req.body.id, req.body, function (err:Error) {
 
         if (err) {
 
@@ -337,7 +336,7 @@ router.post('/lighttrigger', function (req, res) {
  */
 router.get('/lighttrigger_delete/:id', function (req, res) {
 
-    LightTrigger.findByIdAndRemove(req.params.id, function (err, result) {
+    LightTrigger.findByIdAndRemove(req.params.id, function (err) {
 
         if (err) {
             res.json(err);
@@ -346,7 +345,7 @@ router.get('/lighttrigger_delete/:id', function (req, res) {
 
         res.redirect('back');
 
-    })
+    });
 
 });
 

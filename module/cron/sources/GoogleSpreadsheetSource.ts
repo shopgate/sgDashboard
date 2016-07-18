@@ -14,6 +14,9 @@ import LightState = require('../../Objects/LightState');
 import redisClient = require('../../redisClient');
 import config = require('config');
 
+let debug = require('debug')('sgDashboard:module:cron:google-spreadsheet');
+
+
 var Widget = WidgetSchema.WidgetModel;
 var LightTrigger = LightTriggerSchema.LightTriggerModel;
 
@@ -62,7 +65,7 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 		});
 
 		this.oAuthClient.refreshAccessToken(function () {
-			winston.debug("Refreshed access token");
+			debug("Refreshed access token");
 		})
 
 	}
@@ -85,7 +88,7 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 
 			//try to get the spreadsheet from the internal cache
 			if (_this.internalCache[spreadsheetId]) {
-				winston.debug("Get it from internal cache");
+				debug("Get it from internal cache");
 				resolved(_this.internalCache[spreadsheetId]);
 				return;
 			}
@@ -157,14 +160,14 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 						}
 
 						if (!result.cells) {
-							winston.debug("No cells in document found!");
+							debug("No cells in document found!");
 							resolved("");
 							return;
 						}
 
 						//check if we have values for the given cell
 						if (!result.cells[cellPositionInSheet.row] || !result.cells[cellPositionInSheet.row][cellPositionInSheet.col]) {
-							winston.debug("No value for postition " + position + " found");
+							debug("No value for postition " + position + " found");
 							resolved("");
 							return;
 						}
@@ -380,12 +383,12 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 		this.skipCount++;
 		//Execute the checks for inopla every 4th time to reduce the api traffic
 		if (this.skipCount < 4) {
-			winston.debug("Skip google spreadsheet " + this.skipCount);
+			debug("Skip google spreadsheet " + this.skipCount);
 			return;
 		}
 		this.skipCount = 0;
 
-		winston.debug("Run google spreadsheet");
+		debug("Run google spreadsheet");
 		this.currentIteration++;
 		this.internalCache = {};
 		var _this = this;

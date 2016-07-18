@@ -9,6 +9,7 @@ import ZendeskSource = require('./sources/ZendeskSource');
 import InoplaSource = require('./sources/InoplaSource');
 import GoogleSpreadsheetSource = require('./sources/GoogleSpreadsheetSource');
 import StashSource = require('./sources/StashSource');
+let debug = require('debug')('sgDashboard:module:dashboard-cron');
 
 
 var zendeskSource = new ZendeskSource();
@@ -19,7 +20,7 @@ var stashSource = new StashSource();
 
 
 new CronJob('*/15 * * * * *', function () {
-    winston.debug("Start cron");
+    debug("Start cron");
     jiraSource.execute();
     zendeskSource.execute();
     inoplaSource.execute();

@@ -20,6 +20,8 @@ import redisClient = require('../../redisClient');
 var parseString = xml2js.parseString;
 import config = require('config');
 
+let debug = require('debug')('sgDashboard:module:cron:inopla');
+
 let inoplaURL = "https://schnittstelle.inopla.de/cdr/cdr_in_out.php?id=" + config.get('inopla.id') + "&psec=" + config.get('inopla.psec') + "&last_calls=500";
 
 class InoplaSource extends AbstractSource.AbstractSource {
@@ -178,9 +180,9 @@ class InoplaSource extends AbstractSource.AbstractSource {
 
 		return new Promise(function (resolved, rejected) {
 
-			winston.debug("Start request to " + inoplaURL);
+			debug("Start request to " + inoplaURL);
 			request(inoplaURL, function (err, response, body) {
-				winston.debug("Get answer from inopla");
+				debug("Get answer from inopla");
 				if (err) {
 					rejected(err);
 					return;
@@ -259,18 +261,18 @@ class InoplaSource extends AbstractSource.AbstractSource {
 
 		//Execute the checks for inopla every 4th time to reduce the api traffic
 		if (this.skipCount < 4) {
-			winston.debug("Skip inopla " + this.skipCount);
+			debug("Skip inopla " + this.skipCount);
 			return;
 		}
 
 		this.skipCount = 0;
-		winston.debug("Run inopla");
+		debug("Run inopla");
 		var _this = this;
 		this.calls = [];
 		this.getLastCalls()
 			.then(function (calls:InoplaCall[]) {
 				_this.calls = calls;
-				winston.debug("Find widgets");
+				debug("Find widgets");
 				return Widget.findWithPromise({source: 'inopla'});
 			})
 			.then(function (widgets:WidgetSchema.IWidget[]) {

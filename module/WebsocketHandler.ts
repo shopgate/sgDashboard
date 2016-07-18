@@ -7,6 +7,7 @@ import _ = require('underscore');
 import DashboardSchema = require('../databaseSchema/Dashboard');
 import LightState = require('./Objects/LightState');
 import Location = require('./Objects/Location');
+let debug = require('debug')('sgDashboard:module:websocket-handler');
 var Dashboard = DashboardSchema.DashboardModel;
 
 interface MessageHistory {
@@ -28,7 +29,7 @@ class WebsocketHandler {
 		var locationValues = _.values(Location.values);
 		_.each(locationValues, function (value) {
 			_this._io.of("huebridge_" + value).on('connection', function () {
-				winston.debug("Connect from huebridge at " + value);
+				debug("Connect from huebridge at " + value);
 			});
 		})
 
@@ -40,7 +41,7 @@ class WebsocketHandler {
 	 * @param srv
 	 */
 	attachServer(srv:any) {
-		winston.debug("Start to attach webserver to socket.io");
+		debug("Start to attach webserver to socket.io");
 		var _this = this;
 		Dashboard.findWithPromise({})
 			.then(function (dashboards:DashboardSchema.IDashboard[]) {
@@ -57,7 +58,7 @@ class WebsocketHandler {
 
 
 				});
-				winston.debug("Attach webserver to socket.io");
+				debug("Attach webserver to socket.io");
 				_this._io.attach(srv);
 			})
 
@@ -92,7 +93,7 @@ class WebsocketHandler {
 	 * @param socket
 	 */
 	handleConnect(socket:SocketIO.Socket) {
-		winston.debug("Websocket connected");
+		debug("Websocket connected");
 		var _this = this;
 
 		if (this._messageHistory) {
@@ -122,7 +123,7 @@ class WebsocketHandler {
 	 * @param lightState
 	 */
 	sendToBridgeGateway(lightState:LightState.LightState) {
-		winston.debug("sendToBridgeGateway: " + JSON.stringify(lightState));
+		debug("sendToBridgeGateway: " + JSON.stringify(lightState));
 		var nsp = this._io.of("huebridge_" + Location.values[lightState.location]);
 		nsp.emit("change", lightState);
 
@@ -134,7 +135,7 @@ class WebsocketHandler {
 	 * @param payload
 	 */
 	broadcastMessage(event:string, payload:any) {
-		winston.debug("broadcastMessage: " + event);
+		debug("broadcastMessage: " + event);
 		this._io.sockets.emit(event, payload);
 	}
 

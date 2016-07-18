@@ -8,6 +8,8 @@ import _ = require('underscore');
 import config = require('config');
 import IStashBranchResponse = require('../../Objects/IStashBranchResponse');
 
+let debug = require('debug')('sgDashboard:module:cron:stash');
+
 var Widget = WidgetSchema.WidgetModel;
 
 interface ILastCommitStashWidget extends WidgetSchema.IWidget {
@@ -33,7 +35,7 @@ class StashSource extends AbstractSource.AbstractSource {
 			//prepare url
 			var url = "https://" + config.get('stash.host') + "/rest/api/latest/projects/SG/repos/shopgate/branches";
 			url += "?details=true&start=0&limit=1000&orderBy=" + widget.query.order + "&filterText=" + widget.query.keyword;
-			winston.debug("Do request to url" + url);
+			debug("Do request to url" + url);
 			//do request
 			request(url, {auth: {user: <string> config.get('stash.username'), pass: <string> config.get('stash.password'), sendImmediately: true}}, function (error, response, body) {
 
@@ -86,12 +88,11 @@ class StashSource extends AbstractSource.AbstractSource {
 		var _this = this;
 		var results = {};
 		return new Promise(function (resolved, reject) {
-			var results = {};
 			async.eachLimit(widgets, 5, function (widget:WidgetSchema.IWidget, callback) {
 				if (!results[widget.board]) {
 					results[widget.board] = {};
 				}
-				winston.debug(widget.type);
+				debug(widget.type);
 				switch (widget.type) {
 					case "last_commit_per_branch" :
 

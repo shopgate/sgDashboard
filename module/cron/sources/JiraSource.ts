@@ -13,7 +13,8 @@ import Promise = require('bluebird');
 import AbstractSource = require('./AbstractSource');
 import config = require('config');
 
-var Dashboard = DashboardSchema.DashboardModel;
+let debug = require('debug')('sgDashboard:module:cron:jira');
+
 var Widget = WidgetSchema.WidgetModel;
 
 var jira = new JiraConnector({
@@ -56,7 +57,7 @@ class JiraSource extends AbstractSource.AbstractSource {
 					.catch(callback);
 
 			}, function (err:Error) {
-				winston.debug("Finshed with async");
+				debug("Finshed with async");
 
 				if (err) {
 					winston.error(err.message);
@@ -267,7 +268,7 @@ class JiraSource extends AbstractSource.AbstractSource {
 					.then(function (currentTickets:any) {
 
 						if (!oldTicketsString) {
-							winston.debug("No old tickets found for key " + cacheKey);
+							debug("No old tickets found for key " + cacheKey);
 							resolved(false);
 							return;
 						}

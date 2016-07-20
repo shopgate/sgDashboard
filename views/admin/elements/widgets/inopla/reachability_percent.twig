@@ -13,7 +13,7 @@
         <input type="text" class="form-control" placeholder="e.g. 0" required="required"
                name="query" value="{{ widget.query|e('html_attr') }}">
     </div>
-    {% include 'admin/elements/apperance.twig' %}
+    {% include 'admin/elements/apperance.twig' with {'limits': true } %}
 </div>
 
 <div class="modal-footer">

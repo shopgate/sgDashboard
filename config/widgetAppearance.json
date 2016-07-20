@@ -1,0 +1,93 @@
+{
+  "icons" : [
+    {
+      "name": "Statistic",
+      "class": "ion-stats-bars"
+    },
+    {
+      "name": "Magnifier",
+      "class": "ion-android-search"
+    },
+    {
+      "name": "Chat bubbles",
+      "class": "ion-ios-chatboxes-outline"
+    },
+    {
+      "name": "Happy smilie",
+      "class": "ion-happy-outline"
+    },
+    {
+      "name": "Sad smilie",
+      "class": "ion-sad-outline"
+    },
+    {
+      "name": "Radioactive",
+      "class": "ion-nuclear"
+    },
+    {
+      "name": "Warning",
+      "class": "ion-alert-circled"
+    },
+    {
+      "name": "Trend up",
+      "class": "ion-arrow-graph-up-right"
+    },
+    {
+      "name": "Trend down",
+      "class": "ion-arrow-graph-down-right"
+    },
+    {
+      "name": "Top",
+      "class": "ion-thumbsup"
+    },
+    {
+      "name": "Flop",
+      "class": "ion-thumbsdown"
+    },
+    {
+      "name": "Excellent",
+      "class": "ion-trophy"
+    },
+    {
+      "name": "Stopwatch",
+      "class": "ion-android-stopwatch"
+    },
+    {
+      "name": "Time",
+      "class": "ion-android-time"
+    },
+    {
+      "name": "Inbox",
+      "class": "ion-archive"
+    },
+    {
+      "name": "Person",
+      "class": "ion-person"
+    },
+    {
+      "name": "Cash",
+      "class": "ion-cash"
+    },
+    {
+      "name": "Bug",
+      "class": "ion-bug"
+    },
+    {
+      "name": "Heart",
+      "class": "ion-heart"
+    },
+    {
+      "name": "Dollar",
+      "class": "ion-social-usd"
+    }
+  ],
+  "colors" : [
+    "green",
+    "yellow",
+    "red",
+    "blue",
+    "gray",
+    "black"
+  ]
+}
+

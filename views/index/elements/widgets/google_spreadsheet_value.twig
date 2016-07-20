@@ -1,13 +1,23 @@
-<div class=" col-xs-{{ widget.position.column }}">
+<div class=" col-xs-{{ widget.position.column }}" >
     <!-- small box -->
-    <div class="small-box bg-{{ widget.appearance.color }}">
+    <div class="small-box" ng-class="widget.color.{{ widget.key }}" ng-init="widget.color.{{ widget.key }} = 'bg-{{ widget.appearance.color }}'">
         <div class="inner">
-            <h3 class="widget-value">{{ "{{ widget." ~ widget.key ~ "}}" }}</h3>
+            <h3 class="widget-value">
+                {{ "{{ widget." ~ widget.key ~ "}}" }}
+            </h3>
             <p>{{ widget.title }}</p>
         </div>
         <div class="icon">
-            <i class="ion {{ widget.appearance.icon }}"></i>
+            <i class="ion" ng-class="widget.icon.{{ widget.key }}" ng-init="widget.icon.{{ widget.key }} = '{{ widget.appearance.icon }}'"></i>
         </div>
+
+        {% if widget.appearance.limitsActive == true %}
+            <a href="#" class="small-box-footer">
+                Limits:
+                <i class="fa fa-arrow-down"></i> {{ widget.appearance.lowLimit.value }}
+                <i class="fa fa-arrow-up"></i> {{ widget.appearance.highLimit.value }}
+            </a>
+        {% endif %}
 
     </div>
 </div>

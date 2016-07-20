@@ -29,7 +29,8 @@
 
     <script>
         var dashboardKey = "{{ dashboard.key }}";
-        var widgetIds = {{ widgetKeys|json_encode() }}
+        var widgetConfigs = {{ widgetsJson }};
+
     </script>
 
     <style>

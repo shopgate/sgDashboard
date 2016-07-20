@@ -58,12 +58,40 @@ angular.module('sgDashboard', ['ui.bootstrap', 'ngAnimate'])
 
 		this.noPause = true;
 
+		this.color = {};
+		this.icon = {};
+
 		var scope = this;
-		widgetIds.forEach(function (element) {
-			scope[element] = 0;
-			socket.on(element, function (data) {
-				scope[element] = data.value;
+		widgetConfigs.forEach(function (element) {
+			console.log(element);
+
+			scope[element.key] = '-';
+			socket.on(element.key, function (data) {
+
+				scope[element.key] = data.value;
+				var bgColor = 'bg-' + element.appearance.color;
+				var icon = element.appearance.icon;
+
+				if(element.appearance.limitsActive) {
+
+
+					//check lower limit
+					if(data.value < element.appearance.lowLimit.value) {
+						bgColor = 'bg-' + element.appearance.lowLimit.color;
+						icon = element.appearance.lowLimit.icon;
+
+					}
+					if(data.value > element.appearance.highLimit.value) {
+						bgColor = 'bg-' + element.appearance.highLimit.color;
+						icon = element.appearance.highLimit.icon;
+					}
+				}
+
+				scope.color[element.key] = bgColor;
+				scope.icon[element.key] = icon
+
 			});
+
 		})
 
 	});

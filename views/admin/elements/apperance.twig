@@ -36,13 +36,9 @@
         <div class="form-group">
             <label>Color</label>
             <select class="form-control" name="appearance[color]">
-                <option value="green" {{ ( widget.appearance.color == "green" ) ? 'selected' : '' }}>Green</option>
-                <option value="yellow" {{ ( widget.appearance.color == "yellow" ) ? 'selected' : '' }}>Yellow
-                </option>
-                <option value="red" {{ ( widget.appearance.color == "red" ) ? 'selected' : '' }}>Red</option>
-                <option value="blue" {{ ( widget.appearance.color == "blue" ) ? 'selected' : '' }}>Blue</option>
-                <option value="gray" {{ ( widget.appearance.color == "gray" ) ? 'selected' : '' }}>Gray</option>
-                <option value="black" {{ ( widget.appearance.color == "black" ) ? 'selected' : '' }}>Black</option>
+                {% for color in colors %}
+                    <option value="{{ color }}" {{ ( widget.appearance.color == color ) ? 'selected' : '' }}>{{ color|capitalize }}</option>
+                {% endfor %}
             </select>
         </div>
     </div>
@@ -50,72 +46,127 @@
         <div class="form-group">
             <label>Icon</label>
             <select class="form-control" name="appearance[icon]">
-                <option value="ion-stats-bars" {{ ( widget.appearance.icon == "ion-stats-bars" ) ? 'selected' : '' }}>
-                    Statistic
-                </option>
-                <option value="ion-android-search" {{ ( widget.appearance.icon == "ion-android-search" ) ? 'selected' : '' }}>
-                    Magnifier
-                </option>
-                <option value="ion-ios-chatboxes-outline" {{ ( widget.appearance.icon == "ion-ios-chatboxes-outline" ) ? 'selected' : '' }}>
-                    Chat bubbles
-                </option>
-                <option value="ion-happy-outline" {{ ( widget.appearance.icon == "ion-happy-outline" ) ? 'selected' : '' }}>
-                    Happy smilie
-                </option>
-                <option value="ion-sad-outline" {{ ( widget.appearance.icon == "ion-sad-outline" ) ? 'selected' : '' }}>
-                    Sad smilie
-                </option>
-                <option value="ion-alert-circled" {{ ( widget.appearance.icon == "ion-alert-circled" ) ? 'selected' : '' }}>
-                    Warning
-                </option>
-                <option value="ion-nuclear" {{ ( widget.appearance.icon == "ion-nuclear" ) ? 'selected' : '' }}>
-                    Radioactive
-                </option>
-                <option value="ion-arrow-graph-up-right" {{ ( widget.appearance.icon == "ion-arrow-graph-up-right" ) ? 'selected' : '' }}>
-                    Trend up
-                </option>
-                <option value="ion-arrow-graph-down-right" {{ ( widget.appearance.icon == "ion-arrow-graph-down-right" ) ? 'selected' : '' }}>
-                    Trend down
-                </option>
-                <option value="ion-thumbsup" {{ ( widget.appearance.icon == "ion-thumbsup" ) ? 'selected' : '' }}>
-                    Top
-                </option>
-                <option value="ion-thumbsdown" {{ ( widget.appearance.icon == "ion-thumbsdown" ) ? 'selected' : '' }}>
-                    Flop
-                </option>
-                <option value="ion-trophy" {{ ( widget.appearance.icon == "ion-trophy" ) ? 'selected' : '' }}>
-                    Excellent
-                </option>
-                <option value="ion-android-time" {{ ( widget.appearance.icon == "ion-android-time" ) ? 'selected' : '' }}>
-                    Time
-                </option>
-                <option value="ion-android-stopwatch" {{ ( widget.appearance.icon == "ion-android-stopwatch" ) ? 'selected' : '' }}>
-                    Stopwatch
-                </option>
-                <option value="ion-calendar" {{ ( widget.appearance.icon == "ion-calendar" ) ? 'selected' : '' }}>
-                    Calendar
-                </option>
-                <option value="ion-archive" {{ ( widget.appearance.icon == "ion-archive" ) ? 'selected' : '' }}>
-                    Inbox
-                </option>
-                <option value="ion-person" {{ ( widget.appearance.icon == "ion-person" ) ? 'selected' : '' }}>
-                    Person
-                </option>
-                <option value="ion-cash" {{ ( widget.appearance.icon == "ion-cash" ) ? 'selected' : '' }}>
-                    Cash
-                </option>
-                <option value="ion-bug" {{ ( widget.appearance.icon == "ion-bug" ) ? 'selected' : '' }}>
-                    Bug
-                </option>
-                <option value="ion-heart" {{ ( widget.appearance.icon == "ion-heart" ) ? 'selected' : '' }}>
-                    Heart
-                </option>
-                <option value="ion-social-usd" {{ ( widget.appearance.icon == "ion-social-usd" ) ? 'selected' : '' }}>
-                    Dollar
-                </option>
+
+                {% for icon in icons %}
+                    <option value="{{ icon.class }}" {{ ( widget.appearance.icon == icon.class ) ? 'selected' : '' }}>
+                        {{ icon.name }}
+                    </option>
+                {% endfor %}
 
             </select>
         </div>
     </div>
 
 </div>
+
+{% if limits == true %}
+<!-- Limits-->
+<div class="row">
+
+    <div class="col-xs-12">
+        <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    <input class="limits-checkbox" type="checkbox" name="appearance[limitsActive]" {{ widget.appearance.limitsActive ? 'checked=checked' : '' }}>
+                    Enable lower and higher limits
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+    <div class="limits {{ widget.appearance.limitsActive ? '' : 'hidden' }}">
+
+        <!-- Lower limit -->
+        <h4>Lower limit</h4>
+        <div class="row">
+            <div class="col-xs-4">
+                <div class="form-group">
+                    <label>Color</label>
+                    <select class="form-control" name="appearance[lowLimit][color]">
+                        {% for color in colors %}
+                            <option value="{{ color }}" {{ ( widget.appearance.lowLimit.color == color ) ? 'selected' : '' }}>{{ color|capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="form-group">
+                    <label>Icon</label>
+                    <select class="form-control" name="appearance[lowLimit][icon]">
+
+                        {% for icon in icons %}
+                            <option value="{{ icon.class }}" {{ ( widget.appearance.lowLimit.icon == icon.class ) ? 'selected' : '' }}>
+                                {{ icon.name }}
+                            </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="form-group">
+                    <label>Limit</label>
+                    <input class="form-control" type="number" name="appearance[lowLimit][value]" value="{{ widget.appearance.lowLimit.value }}"/>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- High limit -->
+        <h4>High limit</h4>
+        <div class="row">
+            <div class="col-xs-4">
+                <div class="form-group">
+                    <label>Color</label>
+                    <select class="form-control" name="appearance[highLimit][color]">
+                        {% for color in colors %}
+                            <option value="{{ color }}" {{ ( widget.appearance.highLimit.color == color ) ? 'selected' : '' }}>{{ color|capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="form-group">
+                    <label>Icon</label>
+                    <select class="form-control" name="appearance[highLimit][icon]">
+
+                        {% for icon in icons %}
+                            <option value="{{ icon.class }}" {{ ( widget.appearance.highLimit.icon == icon.class ) ? 'selected' : '' }}>
+                                {{ icon.name }}
+                            </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="form-group">
+                    <label>Limit</label>
+                    <input class="form-control" type="number" name="appearance[highLimit][value]" value="{{ widget.appearance.highLimit.value }}"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endif %}
+
+<script type="text/javascript">
+
+    $('.limits-checkbox').change(function () {
+
+        var limitsDiv = $('.limits');
+
+        if($(this).is(":checked")) {
+            limitsDiv.removeClass('hidden');
+            return;
+        }
+        limitsDiv.addClass('hidden');
+    })
+
+
+</script>

@@ -22,7 +22,7 @@
                name="query[cell]" value="{{ widget.query.cell|e('html_attr') }}">
     </div>
 
-    {% include 'admin/elements/apperance.twig' %}
+    {% include 'admin/elements/apperance.twig' with {'limits': true } %}
 </div>
 
 <div class="modal-footer">

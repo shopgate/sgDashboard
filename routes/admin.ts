@@ -10,6 +10,9 @@ import lightsOnLocation = require('../module/Objects/LightsOnLocation');
 import websocketHandler = require('../module/WebsocketHandler');
 import WidgetSchema = require('../databaseSchema/Widget');
 import LightTriggerSchema = require('../databaseSchema/LightTrigger');
+
+let widgetAppearance = require('../config/widgetAppearance.json');
+
 let Dashboard = DashboardSchema.DashboardModel;
 let Widget = WidgetSchema.WidgetModel;
 let LightTrigger = LightTriggerSchema.LightTriggerModel;
@@ -128,8 +131,14 @@ router.get('/ajax_widget', function (req, res, next) {
 
     if (req.query.id) {
         Widget.findById(req.query.id, function (err, widget:WidgetSchema.IWidget) {
+            
+            console.log(widget);
+            
             res.render('admin/elements/widgets/' + widget.source + '/' + widget.type, {
+                colors: widgetAppearance.colors,
+                icons: widgetAppearance.icons,
                 widget: widget
+
             });
         });
         return;
@@ -143,7 +152,10 @@ router.get('/ajax_widget', function (req, res, next) {
 
     var widgetPaths = widgetPath.split('/');
 
-    res.render('admin/elements/widgets/' + widgetPaths[0] + '/' + widgetPaths[1], {});
+    res.render('admin/elements/widgets/' + widgetPaths[0] + '/' + widgetPaths[1], {
+        colors: widgetAppearance.colors,
+        icons: widgetAppearance.icons
+    });
 
 
 });

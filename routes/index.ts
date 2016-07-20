@@ -51,8 +51,8 @@ router.get('/dashboard/:dashboardKey', function (req:express.Request, res:expres
                 pageTitle: dashboard.name,
                 dashboard: dashboard,
                 widgets: widgets,
+                widgetsJson : JSON.stringify(widgets),
                 widgetsPerPage: widgetsPerPage,
-                widgetKeys: widgetKeys
             });
 
         })

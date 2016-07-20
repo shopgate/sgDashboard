@@ -17,8 +17,19 @@ var WidgetSchema = new mongoose.Schema({
 		page: {type: Number, required: true}
 	},
 	appearance: {
-		color: {type: String},
-		icon: {type: String}
+		color: String,
+		icon: String,
+		limitsActive: { type: Boolean, default: false},
+		highLimit: {
+			value : Number,
+			color: String,
+			icon: String
+		},
+		lowLimit: {
+			value : Number,
+			color: String,
+			icon: String
+		}
 	}
 });
 

@@ -74,14 +74,15 @@ angular.module('sgDashboard', ['ui.bootstrap', 'ngAnimate'])
 
 				if(element.appearance.limitsActive) {
 
+					var checkValue = data.value.replace(/%/g, '');
 
 					//check lower limit
-					if(data.value < element.appearance.lowLimit.value) {
+					if(checkValue < element.appearance.lowLimit.value) {
 						bgColor = 'bg-' + element.appearance.lowLimit.color;
 						icon = element.appearance.lowLimit.icon;
 
 					}
-					if(data.value > element.appearance.highLimit.value) {
+					if(checkValue > element.appearance.highLimit.value) {
 						bgColor = 'bg-' + element.appearance.highLimit.color;
 						icon = element.appearance.highLimit.icon;
 					}

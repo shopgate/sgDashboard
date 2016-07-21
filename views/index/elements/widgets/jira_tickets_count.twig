@@ -11,13 +11,15 @@
             <i class="ion" ng-class="widget.icon.{{ widget.key }}" ng-init="widget.icon.{{ widget.key }} = '{{ widget.appearance.icon }}'"></i>
         </div>
 
-        {% if widget.appearance.limitsActive == true %}
-            <a href="#" class="small-box-footer">
+        <a href="#" class="small-box-footer">
+            {% if widget.appearance.limitsActive == true %}
                 Limits:
                 <i class="fa fa-arrow-down"></i> {{ widget.appearance.lowLimit.value }}
                 <i class="fa fa-arrow-up"></i> {{ widget.appearance.highLimit.value }}
-            </a>
-        {% endif %}
+            {% else %}
+                &nbsp;
+            {% endif %}
+        </a>
 
     </div>
 </div>

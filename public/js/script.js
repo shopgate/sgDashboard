@@ -72,17 +72,27 @@ angular.module('sgDashboard', ['ui.bootstrap', 'ngAnimate'])
 				var bgColor = 'bg-' + element.appearance.color;
 				var icon = element.appearance.icon;
 
-				if(element.appearance.limitsActive) {
+				if (element.appearance.limitsActive) {
 
-					var checkValue = data.value.replace(/%/g, '');
+					var checkValue = data.value;
 
-					//check lower limit
-					if(checkValue < element.appearance.lowLimit.value) {
+					// if value includes chars try to filter e.g. % character
+					if (typeof checkValue === 'string')
+					{
+                        checkValue = data.value.replace(/%/g, '');
+                        checkValue = checkValue.replace(/\$/g, '');
+                        checkValue = checkValue.replace(/€/g, '');
+					}
+
+					// check lower limit
+					if (checkValue < element.appearance.lowLimit.value) {
 						bgColor = 'bg-' + element.appearance.lowLimit.color;
 						icon = element.appearance.lowLimit.icon;
 
 					}
-					if(checkValue > element.appearance.highLimit.value) {
+
+					// check upper limit
+					if (checkValue > element.appearance.highLimit.value) {
 						bgColor = 'bg-' + element.appearance.highLimit.color;
 						icon = element.appearance.highLimit.icon;
 					}

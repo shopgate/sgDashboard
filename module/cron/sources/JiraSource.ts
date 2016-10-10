@@ -54,7 +54,13 @@ class JiraSource extends AbstractSource.AbstractSource {
 						};
 						callback();
 					})
-					.catch(callback);
+					.catch(function(err:any) {
+						winston.error('Error while executing JQL', {
+							query: widget.query,
+							message: err.errorMessages
+						})
+						callback();
+					});
 
 			}, function (err:Error) {
 				debug("Finshed with async");

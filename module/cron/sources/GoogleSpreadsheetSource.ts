@@ -99,7 +99,7 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 				auth: _this.oAuthClient
 			}, function (err, spreadsheet) {
 				if (err) {
-					rejected(err);
+					rejected(new Error('Error while getting spreadsheet: ' + spreadsheetId + '\nError: ' + err.message));
 					return;
 				}
 				//add it to the internal cache
@@ -137,11 +137,9 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 			resolved();
 		})
 			.then(function () {
-				console.log("getSpreadSheet");
 				return _this.getSpreadSheet.call(_this, spreadsheetId);
 			})
 			.then(function (spreadsheet:any) {
-				console.log("Get the spreadsheet");
 				return new Promise(function (resolved, rejected) {
 
 					//find the matching worksheet
@@ -212,16 +210,16 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 						};
 						callback();
 
-					}).catch(function (err:Error) {
-						callback(err);
+					}).catch(function (err:NodeJS.ErrnoException) {
+						winston.error(err.message, {
+							spreedsheetId: widget.query.spreedsheetId,
+							cell: widget.query.cell
+						});
+						callback();
 					});
 
 			}, function (err:Error) {
-				if (err) {
-					winston.error(err.message);
-				}
 				resolved(results);
-
 			});
 
 		})

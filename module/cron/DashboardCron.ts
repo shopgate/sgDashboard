@@ -18,16 +18,22 @@ var inoplaSource = new InoplaSource();
 var googleSpreadsheetSource = new GoogleSpreadsheetSource();
 var stashSource = new StashSource();
 
+jiraSource.init()
+    .then(() => {
+        new CronJob('0 */2 * * * *', function () {
+            debug("Start cron");
+            jiraSource.execute();
+            zendeskSource.execute();
+            inoplaSource.execute();
+            googleSpreadsheetSource.execute();
+            stashSource.execute();
+        }, null, true);
+    })
+    .catch((err) => {
+        console.error(err);
+        process.exit(1);
+    })
 
-new CronJob('*/15 * * * * *', function () {
-    debug("Start cron");
-    jiraSource.execute();
-    zendeskSource.execute();
-    inoplaSource.execute();
-    googleSpreadsheetSource.execute();
-	stashSource.execute();
 
-
-}, null, true);
 
 

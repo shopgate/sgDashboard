@@ -13,6 +13,7 @@
     "type": "git",
     "url": "https://github.com/shopgate/sgDashboard.git"
   },
+  "license": "MIT",
   "dependencies": {
     "async": "~2.0.1",
     "bluebird": "^3.3.5",
@@ -25,7 +26,7 @@
     "file-cookie-store": "^0.2.1",
     "google-spreadsheets": "~0.5.1",
     "googleapis": "~12.0.0",
-    "jira-connector": "^2.3.0",
+    "jira-connector": "^2.6.0",
     "moment": "^2.10.2",
     "moment-timezone": "~0.5.4",
     "mongoose": "~4.5.7",
@@ -40,5 +41,8 @@
     "underscore": "~1.8.3",
     "winston": "~2.2.0",
     "xml2js": "~0.4.9"
+  },
+  "devDependencies": {
+    "typescript": "^2.1.6"
   }
 }

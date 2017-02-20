@@ -18,26 +18,63 @@ const request = require('request');
 let debug = require('debug')('sgDashboard:module:cron:jira');
 var Widget = WidgetSchema.WidgetModel;
 
-const cookieJsonPath = path.join(__dirname, '../../../cookies.json');
-let jiraConnectorOptions = {
-	host: <string> config.get('jira.host'),
-	basic_auth: null,
-	cookie_jar: null
-};
-
-if (!fs.existsSync(cookieJsonPath)) {
-	fs.writeFileSync(cookieJsonPath, JSON.stringify({}));
-	jiraConnectorOptions['basic_auth'] = {
-		username: <string> config.get('jira.user'),
-		password: <string> config.get('jira.password')
-	};
-}
-
-jiraConnectorOptions.cookie_jar = request.jar(new FileCookieStore(cookieJsonPath));
-const jira = new JiraConnector(jiraConnectorOptions);
-
-
 class JiraSource extends AbstractSource.AbstractSource {
+	private cookieJar = null;
+	private jira:JiraConnector = null;
+
+	init() {
+		return this._createCookieStore()
+			.then(() => {
+				return new Promise((resolve, reject) => {
+					const options = {
+						url : `https://${config.get('jira.host')}/rest/auth/1/session`,
+						method: 'POST',
+						body : {
+							username: <string> config.get('jira.user'),
+							password: <string> config.get('jira.password')
+						},
+						json: true,
+						jar: this.cookieJar
+					};
+
+					request(options, (err, response, body) => {
+						if(err) return reject(err);
+						if(response.statusCode !== 200) return reject(new Error(`Wrong status code ${response.statusCode}: ${JSON.stringify(body)}`));
+						resolve();
+					})
+				})
+			})
+			.then(() => {
+				let jiraConnectorOptions = {
+					host: <string> config.get('jira.host'),
+					cookie_jar: this.cookieJar
+				};
+				this.jira = new JiraConnector(jiraConnectorOptions)
+			})
+	}
+
+	private _createCookieStore() {
+		const cookieJsonPath = path.join(__dirname, '../../../cookies.json');
+		return new Promise((resolve, reject) => {
+			fs.access(cookieJsonPath,fs.constants.F_OK, function(err) {
+				if (err) return reject(err);
+				debug(cookieJsonPath + ' exists');
+				resolve();
+			});
+		})
+		.catch(() => {
+			debug('Create ' + cookieJsonPath);
+			return new Promise((resolve, reject) => {
+				fs.writeFile(cookieJsonPath, JSON.stringify({}), (err) => {
+					if(err) return reject(err);
+					resolve();
+				});
+			})
+		})
+		.then(() => {
+			this.cookieJar = request.jar(new FileCookieStore(cookieJsonPath));
+		})
+	}
 
 	/**
 	 * Itereate through the given widgets and get the zendesk information
@@ -95,19 +132,17 @@ class JiraSource extends AbstractSource.AbstractSource {
 	 * @private
 	 */
 	private _getDataFromJQL(jql:string) {
-		var _this = this;
+		return new Promise((resolved, reject) => {
+			var cacheKey = this._getCacheKey(jql, this.currentIteration);
 
-		return new Promise(function (resolved, reject) {
-			var cacheKey = _this._getCacheKey(jql, _this.currentIteration);
-
-			redisClient.get(cacheKey, function (err, result) {
+			redisClient.get(cacheKey, (err, result) => {
 
 				if (result) {
 					resolved(JSON.parse(result));
 					return;
 				}
 
-				jira.search.search({
+				this.jira.search.search({
 					jql: jql,
 					fields: ["count"],
 					maxResult: 1

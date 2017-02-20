@@ -1,5 +1,6 @@
 /// <reference path='../../../typings/tsd.d.ts' />
 import fs = require('fs');
+import path = require('path');
 import winston = require('winston');
 import async = require('async');
 import _ = require('underscore');
@@ -8,22 +9,32 @@ import DashboardSchema = require('../../../databaseSchema/Dashboard');
 import WidgetSchema = require('../../../databaseSchema/Widget');
 import websocketHandler = require('../../WebsocketHandler');
 import redisClient = require('../../redisClient');
-import request = require('request');
 import Promise = require('bluebird');
 import AbstractSource = require('./AbstractSource');
 import config = require('config');
+const FileCookieStore = require('tough-cookie-filestore');
+const request = require('request');
 
 let debug = require('debug')('sgDashboard:module:cron:jira');
-
 var Widget = WidgetSchema.WidgetModel;
 
-var jira = new JiraConnector({
+const cookieJsonPath = path.join(__dirname, '../../../cookies.json');
+let jiraConnectorOptions = {
 	host: <string> config.get('jira.host'),
-	basic_auth: {
+	basic_auth: null,
+	cookie_jar: null
+};
+
+if (!fs.existsSync(cookieJsonPath)) {
+	fs.writeFileSync(cookieJsonPath, JSON.stringify({}));
+	jiraConnectorOptions['basic_auth'] = {
 		username: <string> config.get('jira.user'),
 		password: <string> config.get('jira.password')
-	}
-});
+	};
+}
+
+jiraConnectorOptions.cookie_jar = request.jar(new FileCookieStore(cookieJsonPath));
+const jira = new JiraConnector(jiraConnectorOptions);
 
 
 class JiraSource extends AbstractSource.AbstractSource {

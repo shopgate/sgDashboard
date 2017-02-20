@@ -78,8 +78,7 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 	 */
 	private getSpreadSheet(spreadsheetId:string) {
 
-		var _this = this;
-		return new Promise(function (resolved, rejected) {
+		return new Promise((resolved, rejected) => {
 
 			if (!spreadsheetId) {
 				rejected(new Error("No spreadsheetId given"));
@@ -87,23 +86,23 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 			}
 
 			//try to get the spreadsheet from the internal cache
-			if (_this.internalCache[spreadsheetId]) {
+			if (this.internalCache[spreadsheetId]) {
 				debug("Get it from internal cache");
-				resolved(_this.internalCache[spreadsheetId]);
+				resolved(this.internalCache[spreadsheetId]);
 				return;
 			}
 
 			//spreadsheet not found --> get it
 			GoogleSpreadsheets({
 				key: spreadsheetId,
-				auth: _this.oAuthClient
-			}, function (err, spreadsheet) {
+				auth: this.oAuthClient
+			}, (err, spreadsheet) => {
 				if (err) {
 					rejected(new Error('Error while getting spreadsheet: ' + spreadsheetId + '\nError: ' + err.message));
 					return;
 				}
 				//add it to the internal cache
-				_this.internalCache[spreadsheetId] = spreadsheet;
+				this.internalCache[spreadsheetId] = spreadsheet;
 				resolved(spreadsheet);
 
 			})
@@ -120,11 +119,9 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 	 * @returns {any|Promise<U>}
 	 */
 	getValueFromCell(spreadsheetId:string, position:string) {
-
-		var _this = this;
 		var worksheetName = null;
 		var cellPositionInSheet:CellPosition = null;
-		return new Promise(function (resolved, rejected) {
+		return new Promise((resolved, rejected) => {
 
 			var splittetA1Notation = position.replace("\"", "").split("!");
 			if (splittetA1Notation.length != 2) {
@@ -133,11 +130,11 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 			}
 
 			worksheetName = splittetA1Notation[0];
-			cellPositionInSheet = _this.cellA1ToIndex.call(_this, splittetA1Notation[1]);
+			cellPositionInSheet = this.cellA1ToIndex.call(this, splittetA1Notation[1]);
 			resolved();
 		})
-			.then(function () {
-				return _this.getSpreadSheet.call(_this, spreadsheetId);
+			.then(() => {
+				return this.getSpreadSheet.call(this, spreadsheetId);
 			})
 			.then(function (spreadsheet:any) {
 				return new Promise(function (resolved, rejected) {
@@ -186,17 +183,16 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 	 * @private
 	 */
 	_iterateThroughWidgets(widgets:WidgetSchema.IWidget[]) {
-		var _this = this;
-		return new Promise(function (resolved, rejected) {
+		return new Promise((resolved, rejected) => {
 
 			var results = {};
-			async.eachLimit(widgets, 5, function (widget:WidgetSchema.IWidget, callback) {
+			async.eachLimit(widgets, 5, (widget:WidgetSchema.IWidget, callback) => {
 
 				if (!widget.query.spreedsheetId) {
 					callback(new Error("No spreedsheet id found"));
 				}
 
-				_this.getValueFromCell(widget.query.spreedsheetId, widget.query.cell)
+				this.getValueFromCell(widget.query.spreedsheetId, widget.query.cell)
 					.then(function (value) {
 
 						if (!results[widget.board]) {
@@ -260,20 +256,19 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 	 * @private
 	 */
 	private _executeLightTrigger(lightTriggers) {
-		var _this = this;
 		var lights:LightState.LightState[] = [];
-		return new Promise(function (resolved, rejected) {
+		return new Promise((resolved, rejected) => {
 
 			//run 5 request parallel
-			async.eachLimit(lightTriggers, 5, function (lightTrigger:LightTriggerSchema.ILightTrigger, callback) {
+			async.eachLimit(lightTriggers, 5, (lightTrigger:LightTriggerSchema.ILightTrigger, callback) => {
 
 				//get the value from the given spreedsheet and the given cell
-				_this.getValueFromCell(lightTrigger.dataSource.queries.spreedsheetId, lightTrigger.dataSource.queries.cell)
+				this.getValueFromCell(lightTrigger.dataSource.queries.spreedsheetId, lightTrigger.dataSource.queries.cell)
 					.then(function (value:string) {
 
 						var color:LightState.LightColor = null;
-						if(value != "")  {
-							color = _this._mapCharToColor(value);
+						if (value != "") {
+							color = this._mapCharToColor(value);
 
 							if (color === null) {
 								callback(new Error("No color found for " + value));
@@ -308,11 +303,9 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 	 * @private
 	 */
 	checkForLightTrigger(sourceSystem:string) {
-		var _this = this;
-
 		return LightTrigger.findWithPromise({'dataSource.sourceSystem': sourceSystem})
-			.then(function (lightTriggers:LightTriggerSchema.ILightTrigger[]) {
-				return _this._executeLightTrigger.call(_this, lightTriggers);
+			.then((lightTriggers:LightTriggerSchema.ILightTrigger[]) => {
+				return this._executeLightTrigger.call(this, lightTriggers);
 			})
 
 
@@ -389,17 +382,16 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 		debug("Run google spreadsheet");
 		this.currentIteration++;
 		this.internalCache = {};
-		var _this = this;
 		Widget.findWithPromise({source: 'google', type: 'spreadsheet_value'})
-			.then(function (widgets:WidgetSchema.IWidget[]) {
-				return _this._iterateThroughWidgets(widgets);
+			.then((widgets:WidgetSchema.IWidget[]) => {
+				return this._iterateThroughWidgets(widgets);
 			})
 			.then(this._sendToDashboards)
-			.then(function () {
-				return _this.checkForLightTrigger.call(_this, 'google');
+			.then(() => {
+				return this.checkForLightTrigger.call(this, 'google');
 			})
-			.then(function (lights) {
-				return _this._sendLightStatesToLight.call(_this, lights);
+			.then((lights) => {
+				return this._sendLightStatesToLight.call(this, lights);
 			})
 			.catch(function (err) {
 				winston.error(err);

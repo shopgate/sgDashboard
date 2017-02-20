@@ -2,4 +2,7 @@
 /node_modules/
 /.idea/
 /config/local.json
+/.vscode
 *.js
+cookies.json
+npm-debug.log

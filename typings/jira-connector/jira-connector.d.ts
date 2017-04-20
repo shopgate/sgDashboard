@@ -5,8 +5,8 @@ interface JiraClientLoginBasicAuth {
 
 interface JiraClientLogin {
     host:string;
-    basic_auth:JiraClientLoginBasicAuth;
-    cookie_jar:any;
+    basic_auth?:JiraClientLoginBasicAuth;
+    cookie_jar?:any;
 
 }
 

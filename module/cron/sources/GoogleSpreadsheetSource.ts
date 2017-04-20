@@ -48,7 +48,6 @@ var oAuthSettings:GoogleOAuthSetting = {
 
 class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 
-	private skipCount:number = 0;
 	private oAuthClient;
 	/**
 	 * The internal cache for the spreadsheets
@@ -370,14 +369,6 @@ class GoogleSpreadsheetSource extends AbstractSource.AbstractSource {
 	}
 
 	execute() {
-
-		this.skipCount++;
-		//Execute the checks for inopla every 4th time to reduce the api traffic
-		if (this.skipCount < 4) {
-			debug("Skip google spreadsheet " + this.skipCount);
-			return;
-		}
-		this.skipCount = 0;
 
 		debug("Run google spreadsheet");
 		this.currentIteration++;

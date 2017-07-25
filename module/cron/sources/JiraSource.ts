@@ -20,33 +20,17 @@ var Widget = WidgetSchema.WidgetModel;
 
 class JiraSource extends AbstractSource.AbstractSource {
 	private cookieJar = null;
-	private jira:JiraConnector = null;
+	private jira: JiraConnector = null;
 
 	init() {
 		return this._createCookieStore()
 			.then(() => {
-				return new Promise((resolve, reject) => {
-					const options = {
-						url : `https://${config.get('jira.host')}/rest/auth/1/session`,
-						method: 'POST',
-						body : {
-							username: <string> config.get('jira.user'),
-							password: <string> config.get('jira.password')
-						},
-						json: true,
-						jar: this.cookieJar
-					};
-
-					request(options, (err, response, body) => {
-						if(err) return reject(err);
-						if(response.statusCode !== 200) return reject(new Error(`Wrong status code ${response.statusCode}: ${JSON.stringify(body)}`));
-						resolve();
-					})
-				})
-			})
-			.then(() => {
 				let jiraConnectorOptions = {
-					host: <string> config.get('jira.host'),
+					host: <string>config.get('jira.host'),
+					basic_auth: {
+						username: <string> config.get('jira.user'),
+						password: <string> config.get('jira.password')
+					},
 					cookie_jar: this.cookieJar
 				};
 				this.jira = new JiraConnector(jiraConnectorOptions)
@@ -56,24 +40,24 @@ class JiraSource extends AbstractSource.AbstractSource {
 	private _createCookieStore() {
 		const cookieJsonPath = path.join(__dirname, '../../../cookies.json');
 		return new Promise((resolve, reject) => {
-			fs.access(cookieJsonPath,fs.constants.F_OK, function(err) {
+			fs.access(cookieJsonPath, fs.constants.F_OK, function (err) {
 				if (err) return reject(err);
 				debug(cookieJsonPath + ' exists');
 				resolve();
 			});
 		})
-		.catch(() => {
-			debug('Create ' + cookieJsonPath);
-			return new Promise((resolve, reject) => {
-				fs.writeFile(cookieJsonPath, JSON.stringify({}), (err) => {
-					if(err) return reject(err);
-					resolve();
-				});
+			.catch(() => {
+				debug('Create ' + cookieJsonPath);
+				return new Promise((resolve, reject) => {
+					fs.writeFile(cookieJsonPath, JSON.stringify({}), (err) => {
+						if (err) return reject(err);
+						resolve();
+					});
+				})
 			})
-		})
-		.then(() => {
-			this.cookieJar = request.jar(new FileCookieStore(cookieJsonPath));
-		})
+			.then(() => {
+				this.cookieJar = request.jar(new FileCookieStore(cookieJsonPath));
+			})
 	}
 
 	/**
@@ -82,15 +66,15 @@ class JiraSource extends AbstractSource.AbstractSource {
 	 * @returns {any|Promise}
 	 * @private
 	 */
-	_iterateThroughWidgets(widgets:WidgetSchema.IWidget[]) {
+	_iterateThroughWidgets(widgets: WidgetSchema.IWidget[]) {
 		var _this = this;
 		return new Promise(function (resolved, reject) {
 
 			var results = {};
-			async.eachLimit(widgets, 5, function (widget:WidgetSchema.IWidget, callback) {
+			async.eachLimit(widgets, 5, function (widget: WidgetSchema.IWidget, callback) {
 
 				_this._getDataFromJQL(widget.query)
-					.then(function (data:any) {
+					.then(function (data: any) {
 						if (!results[widget.board]) {
 							results[widget.board] = {};
 						}
@@ -102,7 +86,7 @@ class JiraSource extends AbstractSource.AbstractSource {
 						};
 						callback();
 					})
-					.catch(function(err:any) {
+					.catch(function (err: any) {
 						winston.error('Error while executing JQL', {
 							query: widget.query,
 							message: err.errorMessages
@@ -110,7 +94,7 @@ class JiraSource extends AbstractSource.AbstractSource {
 						callback();
 					});
 
-			}, function (err:Error) {
+			}, function (err: Error) {
 				debug("Finshed with async");
 
 				if (err) {
@@ -131,7 +115,7 @@ class JiraSource extends AbstractSource.AbstractSource {
 	 * @returns {any}
 	 * @private
 	 */
-	private _getDataFromJQL(jql:string) {
+	private _getDataFromJQL(jql: string) {
 		return new Promise((resolved, reject) => {
 			var cacheKey = this._getCacheKey(jql, this.currentIteration);
 
@@ -170,15 +154,15 @@ class JiraSource extends AbstractSource.AbstractSource {
 	 * @returns {any}
 	 * @private
 	 */
-	private _getWorklog(teamNumber:number) {
+	private _getWorklog(teamNumber: number) {
 		return new Promise(function (resolved, rejected) {
 
 			var url = "https://" + config.get('jira.host') + "/rest/tempo-timesheets/3/timesheet-approval?teamId=" + teamNumber;
 			var requestConfig = {
 				'url': url,
 				'auth': {
-					'user': <string> config.get('jira.user'),
-					'pass': <string> config.get('jira.password'),
+					'user': <string>config.get('jira.user'),
+					'pass': <string>config.get('jira.password'),
 					'sendImmediately': true
 				}
 			};
@@ -204,12 +188,12 @@ class JiraSource extends AbstractSource.AbstractSource {
 	 * @returns {any}
 	 * @private
 	 */
-	private _getAllWorklogs(widgets:WidgetSchema.IWidget[]) {
+	private _getAllWorklogs(widgets: WidgetSchema.IWidget[]) {
 		var _this = this;
 		var results = {};
 		return new Promise(function (resolved, rejected) {
 
-			async.each(widgets, function (widget:WidgetSchema.IWidget, callback) {
+			async.each(widgets, function (widget: WidgetSchema.IWidget, callback) {
 
 				var teamNumber = parseInt(widget.query);
 				if (isNaN(teamNumber)) {
@@ -265,10 +249,10 @@ class JiraSource extends AbstractSource.AbstractSource {
 		var countResult = {};
 
 		return new Promise(function (resolved, rejected) {
-			async.each([sourceQuery, destinationQuery], function (query:string, callback) {
+			async.each([sourceQuery, destinationQuery], function (query: string, callback) {
 
 				_this._getDataFromJQL.call(_this, query)
-					.then(function (data:any) {
+					.then(function (data: any) {
 						countResult[query] = data.total;
 						data = null;
 						callback();
@@ -299,7 +283,7 @@ class JiraSource extends AbstractSource.AbstractSource {
 	 * @returns {any}
 	 * @private
 	 */
-	_checkForNewValues(query:string) {
+	_checkForNewValues(query: string) {
 
 		var _this = this;
 		return new Promise(function (resolved, rejected) {
@@ -317,7 +301,7 @@ class JiraSource extends AbstractSource.AbstractSource {
 				}
 
 				_this._getDataFromJQL.call(_this, query)
-					.then(function (currentTickets:any) {
+					.then(function (currentTickets: any) {
 
 						if (!oldTicketsString) {
 							debug("No old tickets found for key " + cacheKey);
@@ -351,8 +335,8 @@ class JiraSource extends AbstractSource.AbstractSource {
 
 		this.currentIteration++;
 		var _this = this;
-		Widget.findWithPromise({source: 'jira', type: 'tickets_count'})
-			.then(function (widgets:WidgetSchema.IWidget[]) {
+		Widget.findWithPromise({ source: 'jira', type: 'tickets_count' })
+			.then(function (widgets: WidgetSchema.IWidget[]) {
 				return _this._iterateThroughWidgets.call(_this, widgets);
 			})
 			.then(this._sendToDashboards)
@@ -360,13 +344,13 @@ class JiraSource extends AbstractSource.AbstractSource {
 				return _this.checkForLightTrigger.call(_this, 'jira');
 			})
 			.then(function () {
-				return Widget.findWithPromise({source: 'jira', type: 'worklog'});
+				return Widget.findWithPromise({ source: 'jira', type: 'worklog' });
 			})
-			.then(function (data:WidgetSchema.IWidget[]) {
+			.then(function (data: WidgetSchema.IWidget[]) {
 				return _this._getAllWorklogs.call(_this, data);
 			})
 			.then(this._sendToDashboards)
-			.catch(function (err:Error) {
+			.catch(function (err: Error) {
 				winston.error(err.message);
 				winston.error(err.name);
 			})

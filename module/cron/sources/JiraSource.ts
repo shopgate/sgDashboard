@@ -12,52 +12,24 @@ import redisClient = require('../../redisClient');
 import Promise = require('bluebird');
 import AbstractSource = require('./AbstractSource');
 import config = require('config');
-const FileCookieStore = require('tough-cookie-filestore');
 const request = require('request');
 
 let debug = require('debug')('sgDashboard:module:cron:jira');
 var Widget = WidgetSchema.WidgetModel;
 
 class JiraSource extends AbstractSource.AbstractSource {
-	private cookieJar = null;
 	private jira: JiraConnector = null;
 
 	init() {
-		return this._createCookieStore()
-			.then(() => {
-				let jiraConnectorOptions = {
-					host: <string>config.get('jira.host'),
-					basic_auth: {
-						username: <string> config.get('jira.user'),
-						password: <string> config.get('jira.password')
-					},
-					cookie_jar: this.cookieJar
-				};
-				this.jira = new JiraConnector(jiraConnectorOptions)
-			})
-	}
-
-	private _createCookieStore() {
-		const cookieJsonPath = path.join(__dirname, '../../../cookies.json');
-		return new Promise((resolve, reject) => {
-			fs.access(cookieJsonPath, fs.constants.F_OK, function (err) {
-				if (err) return reject(err);
-				debug(cookieJsonPath + ' exists');
-				resolve();
-			});
-		})
-			.catch(() => {
-				debug('Create ' + cookieJsonPath);
-				return new Promise((resolve, reject) => {
-					fs.writeFile(cookieJsonPath, JSON.stringify({}), (err) => {
-						if (err) return reject(err);
-						resolve();
-					});
-				})
-			})
-			.then(() => {
-				this.cookieJar = request.jar(new FileCookieStore(cookieJsonPath));
-			})
+        let jiraConnectorOptions = {
+            host: <string>config.get('jira.host'),
+            basic_auth: {
+                username: <string> config.get('jira.user'),
+                password: <string> config.get('jira.password')
+            },
+        };
+        this.jira = new JiraConnector(jiraConnectorOptions)
+        return Promise.resolve()
 	}
 
 	/**
